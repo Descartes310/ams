@@ -1,0 +1,139 @@
+/*=============================================
+			Theme Color
+=============================================*/
+a,
+p a,
+p a:hover,
+a:hover,
+a:focus,
+a:active,
+.tg-stars span:after,
+.tg-btn,
+.tg-topcontactinfo li span a:hover,
+.tg-navigation > ul > li > a,
+.tg-hasdropdown > ul > li > a:hover,
+.tg-hasdropdown > ul > li:hover > a,
+.mega-menu-col ul li:last-child a,
+.mega-menu-col ul li a:hover,
+.mega-menu-col:last-child > a,
+.tg-homeslider figure figcaption h1,
+.tg-homeslider figure figcaption h2,
+.tg-sectiontitle h3,
+.tg-service:hover .tg-seviceicon i,
+.tg-service:hover .tg-heading h4 a,
+.tg-skill.tg-active h4,
+.tg-skill.tg-active h5,
+.tg-skill:hover h4,
+.tg-skill:hover h5,
+.tg-member:hover .tg-membername h4 a,
+.tg-socialprofilelinks li a:hover i,
+.tg-themetabnav ul li.active a,
+.tg-themetabnav ul li a:hover,
+.tg-testimonial:hover:before,
+.tg-testimonial:hover .tg-namecountery h4 a,
+.tg-namecountery h4:hover a,
+.tg-formtitle,
+.tg-socialicons li a:hover i,
+.tg-footerwidgets .tg-widgetrecentnews ul li time a,
+.tg-servicehours > span,
+.tg-breadcrumb li.tg-active a,
+.tg-breadcrumb li a:hover,
+.tg-whatwedo ul li:hover h4 a,
+.tg-navfilterbale li a.tg-active,
+.tg-navfilterbale li a:hover,
+.tg-postmetadata li a:hover,
+.tg-widget ul li a:hover,
+.tg-newsmetadata li a:hover,
+.tg-news:hover .tg-newstitle h2 a,
+blockquote:before,
+blockquote:after,
+.tg-memberinfo span a:hover,
+.tg-404content span{color: #004281;}
+/*=============================================
+			Theme Background Color
+=============================================*/
+.tg-btn:after,
+.tg-themecolor,
+.tg-addnav:before,
+.tg-hasdropdown ul li a:before,
+.mega-menu-col:last-child > a:after,
+.tg-homeslider .owl-controls .owl-buttons div:hover,
+.tg-service:hover .tg-heading:before,
+.tg-videosection,
+.tg-skill:hover .tg-skillbar,
+.tg-skill.tg-active .tg-skillbar,
+.tg-member figure,
+.tg-member:hover .tg-memberinfo:before,
+.tg-project figure,
+.tg-parallax-window:after,
+.tg-footermiddlearea,
+.tg-btnnav,
+.tg-servicestyletwo .tg-service:hover .tg-seviceicon,
+.tg-whatwedo ul li:hover .tg-whatwedoicon,
+.tg-images figure .tg-box,
+.tg-btndownload,
+.tg-event figure,
+.tg-news figure,
+.tg-news:hover .tg-borderstyle:before,
+.tg-event:hover .tg-borderstyle:before,
+.tg-tags a:hover,
+.tg-authorinfo .tg-socialicons li a:hover,
+.tg-addressbox:hover .tg-addresscontent:before,
+.tg-countdown .clock-item .text .type-time,
+.tg-navtab li.active a,
+.tg-navtab li a:hover,
+.tg-boxedversion .tg-btnnav .icon-bar,
+.tg-boxedversion .tg-btnnav .icon-bar{background:rgba(0,66,129,1.00);}
+.tg-footerbottombar{background:#003160;}
+.tg-footerwidgets > div[class*="col-"]:first-child:before,
+.tg-footerwidgets > div[class*="col-"]:first-child,
+.tg-boxedversion .tg-navigationarea,
+body.tg-fixednav .tg-boxedversion .tg-navigationarea{ background:#003b73;}
+.tg-dropdowarrow,
+.tg-btnsearch{background:#004d96;}
+.tg-getdirection{ background:rgba(0,66,129,0.80);}
+.tg-commingsooncontent{background:rgba(0,66,129,0.90);}
+@media (max-width:991px){
+	.tg-addnav:after{background:#004281;}
+}
+@media (max-width:767px){
+	.tg-hasdropdown ul,
+	.mega-menu{background:#004d96;}
+	.tg-navigation{background:#003b73;}
+	.tg-hasdropdown > ul > li > a{border-color: #004281;}
+}
+/*=============================================
+			Theme Border Color
+=============================================*/
+.tg-btn,
+.tg-addnav:after,
+.tg-navigation > ul > li.tg-active > a,
+.tg-navigation > ul > li > a:hover,
+.tg-homeslider .owl-controls .owl-buttons div:hover,
+.owl-theme .owl-controls .owl-page.active span,
+.owl-theme .owl-controls .owl-page span:hover,
+.tg-skill.tg-active .tg-skillholder,
+.tg-skill:hover .tg-skillholder,
+body.tg-fixednav .tg-navigationarea,
+.tg-themetabnav ul li.active a,
+.tg-themetabnav ul li a:hover,
+.tg-getadvice .tg-btn:hover,
+.tg-servicestyletwo .tg-service:hover .tg-seviceicon,
+.tg-whatwedo ul li:hover .tg-whatwedoicon,
+.tg-navfilterbale li a.tg-active,
+.tg-navfilterbale li a:hover,
+.tg-postbuttons .tg-btn:hover,
+.tg-tags a:hover,
+.tg-authorinfo .tg-socialicons li a:hover,
+.tg-navtab li.active,
+.tg-navtab li:hover{border-color: #004281;}
+.clock-canvas:before{ border-color:#1d63a6;}
+/*=============================================
+			Theme SVG Fill Color
+=============================================*/
+.tg-404content h2 .tg-svginject image{
+	color:#000 !important;
+	background-color:#000 !important;
+}
+.tg-404content h2 .tg-svginject image,
+.tg-svginject path{ fill:#004281 !important;}
