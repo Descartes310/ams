@@ -1,0 +1,67 @@
+<div *ngIf="showPage" class=" tg-pagecontent">
+  <div class="container">
+    <div class="row">
+      <div class="tg-404">
+        <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1 col-sm-10 col-sm-offset-1">
+          <div class="tg-404content" style="padding-bottom: 10px;">
+            <div class="tg-borderstyle">
+              <h3>
+								Archives Manager
+              </h3>
+            </div>
+          </div>
+        </div>
+        <div class="col-lg-4 col-md-8 col-sm-10 col-xs-10 col-sm-offset-1 col-xs-offset-1 col-lg-offset-4 col-md-offset-2" style="padding: 0px;">
+          <aside id="tg-siderbar" class="tg-siderbar">
+            <div class="tg-widget tg-widgetprojectdescription">
+              <div class="tg-widgettitle" style="background-color: #003160!important;">
+                <div class="col-lg-6 col-md-6 col-sm-10">
+                  <h3 style="color: white!important">
+										Connexion
+									</h3>
+                </div>
+              </div>
+              <div class="tg-widgetcontent">
+                <form (submit)="onSubmit()" class="tg-themeform" [formGroup]="loginForm" style="padding: 5%;">
+                  <fieldset>
+                    <div style="margin-bottom: 3%;">
+                      <input type="text" class="form-control" formControlName="login" required name="login" placeholder="Login"
+                        autocomplete="off">
+                      <div *ngIf="submitted && f.login.errors" class="invalid-feedback">
+                        <div *ngIf="f.login.errors.required">Le login est requis</div>
+                      </div>
+                    </div>
+                    <div style="margin-bottom: 3%;">
+                      <input type="password" class="form-control" formControlName="password" required name="password" placeholder="Mot de passe"
+                        autocomplete="off">
+                      <div *ngIf="submitted && f.password.errors" class="invalid-feedback">
+                        <div *ngIf="f.password.errors.required">Le mot de passe est requis</div>
+                        <div *ngIf="!f.password.errors.required">Mot de passe trop court</div>
+                      </div>
+                    </div><div style="margin-bottom: 3%;">
+                      <h5>
+                        <a (click)="publicLogin()">Connexion anonyme</a>
+                      </h5>
+                    </div>
+                    <div style="margin-bottom: 3%;">
+                      <h5><a routerLink="/forgot-password" routerLinkActive="active">Mot de passe oublié ?</a></h5>
+                    </div>
+                    <div>
+                      <button type="submit" class="tg-btn" [disabled]="f.invalid || loading">
+                        <span>
+													<img *ngIf="loading" src="assets/images/loader/MnyxU.gif" width="40px;" style="float:left;">
+													&nbsp;
+													Connexion
+												</span>
+                      </button>
+                    </div>
+                  </fieldset>
+                </form>
+              </div>
+            </div>
+          </aside>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,123 @@
+<main id="tg-main" class="tg-main tg-haslayout">
+  <div class="tg-pagecontent" style="padding-bottom: 20px;">
+    <div class="container">
+      <div class="row">
+        <!--************************************
+            Inner Banner Start
+        *************************************-->
+        <div class="col-sm-12">
+          <div class="tg-innerbannercontent">
+            <div class="tg-pagetitle">
+              <h1>
+                <i class="fa fa-clone"></i> Backup des donnees</h1>
+            </div>
+            <ol class="tg-breadcrumb">
+              <li>
+                  <i class="fa fa-home"></i>
+              </li>
+              <li class="tg-active">backup</li>
+            </ol>
+          </div>
+        </div>
+        <!--************************************
+            Inner Banner End
+        *************************************-->
+        <div class="col-lg-12 col-sm-12 col-xs-12 pull-right">
+          <div id="tg-content" class="tg-content">
+            <div class="tg-sectionhead">
+
+              <div class="col-lg-12 col-sm-12 col-xs-12" style="padding: 0px;">
+                <aside id="tg-siderbar" class="tg-siderbar">
+                  <div class="tg-widget tg-widgetprojectdescription">
+                    <div class="tg-widgettitle">
+                      <div class="col-lg-8 col-sm-8 col-xs-12">
+                        <h3>Sélectionner le serveur de destination</h3>
+                      </div>
+                    </div>
+                  </div>
+                </aside>
+							</div>
+							<div>
+              <table>
+                <thead>
+                  <tr class="info">
+                    <th>
+                      Liste des serveurs disponibles
+                    </th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td colSpan="4">
+                      <ng-multiselect-dropdown [placeholder]="'Choisir le stockage de destination'" [data]="dropdownList" [(ngModel)]="selectedItems"
+                        [settings]="dropdownSettings" (onSelect)="onItemSelect($event)" (onDeSelect)="onItemDeSelect($event)"
+                        (onSelectAll)="onSelectAll($event)" (onDeSelectAll)="onSelectAll($event)">
+                      </ng-multiselect-dropdown>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+							</div>
+                <div class="col-md-12 text-center">
+                  <button id="export-but" class="tg-btn" (click)='advice()' [disabled]="isLoading">
+                    <span>
+                      <img *ngIf="isLoading" src="assets/images/loader/MnyxU.gif" width="30px;">
+                      <i class="fa fa-clone"></i>
+                      &nbsp;Backup
+                    </span>
+                  </button>
+                </div>
+
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</main>
+
+<div class="modal" tabindex="-1" role="dialog" [ngStyle]="{'display':display ? 'block':'none' }">
+  <div class="modal-dialog" role="document">
+    <form (submit)="replicate()" method="POST" [formGroup]="replicationForm">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title">Confirmation</h4>
+      </div>
+      <div class="modal-body">
+        <p>Paramètres de connexion au serveur</p>
+        <div class="form-group">
+          <label for="login">Login
+            <span class="invalid-feedback">*</span>
+          </label>
+          <input type="text" name="login" required formControlName="login" class="form-control" id="login" autocomplete="off" placeholder="login">
+          <div *ngIf="isSubmitted && getReplicationForm.login.errors" class="invalid-feedback">
+            <div *ngIf="getReplicationForm.login.errors.required">Champs requis</div>
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="password">Mot de passe
+            <span class="invalid-feedback">*</span>
+          </label>
+          <input type="password" name="password" required formControlName="password" class="form-control" id="password" autocomplete="off"
+            placeholder="password">
+          <div *ngIf="isSubmitted && getReplicationForm.password.errors" class="invalid-feedback">
+            <div *ngIf="getReplicationForm.password.errors.required">Champs requis</div>
+          </div>
+        </div>
+        <p class="text-center">
+          Cette opération risque de prendre du temps.
+          <strong> continuer ? </strong>
+        </p>
+      </div>
+      <div class="modal-footer">
+        <button type="submit" class="btn btn-success">Oui</button>
+        <button type="button" class="btn btn-default" (click)="onCloseHandled()">Non</button>
+      </div>
+    </div>
+    </form>
+    <!-- /.modal-content -->
+  </div>
+  <!-- /.modal-dialog -->
+</div>
+<!-- /.modal !-->

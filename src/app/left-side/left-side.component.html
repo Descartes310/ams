@@ -1,0 +1,58 @@
+
+<aside id="tg-sidebar" class="tg-siderbar">
+  <div class="tg-widget tg-widgetcategory">
+    <div class="tg-widgettitle">
+      <h3>Nouvelles archives &nbsp;&nbsp;
+				<span *ngIf="unread > 0" class="badge" style="background-color: red;">{{ unread }}</span>
+			</h3>
+		</div>
+		
+		<div class="tg-widgetcontent" style="padding-top: 20px; overflow-x: auto;">
+			<img *ngIf="isLoading" src="assets/images/loader/MnyxU.gif" alt="Loading image">
+      <div *ngIf="!isLoading" class="accordion" id="accordionExample">
+
+        <div class="card" *ngFor="let g of groups">
+          <div class="card-header" id="heading{{g.id}}">
+            <h6 class="mb-0" title="{{ g.description }}">
+              <button class="btn btn-link collapsed" type="button" data-toggle="collapse" attr.data-target="#collapse{{g.id}}"
+                aria-expanded="false" attr.aria-controls="collapse{{g.id}}" >
+                <i class="fa fa-folder"></i> {{ g.name }}
+                <span *ngIf="g.newArchives.length > 0" class="badge" style="background-color: red;">{{ g.newArchives.length }}</span>
+              </button>
+            </h6>
+          </div>
+          <div id="collapse{{g.id}}" class="collapse" attr.aria-labelledby="heading{{g.id}}" attr.data-parent="#accordionExample{{g.id}}">
+            <div class="card-body">
+              <h6 class="mb-0 marge" *ngFor="let a of g.newArchives" >
+                 <a (click)="onNewArchivesViewed(a)" [routerLink]="['/archive',a.id]"><i class="fa fa-file-pdf-o"></i>&nbsp;{{ a.name }}</a>
+              </h6>
+            </div>
+          </div>
+        </div>
+
+<!--         <hr *ngIf="newGroups.length">
+
+
+        <div class="card" *ngFor="let g of newGroups">
+          <div class="card-header" id="heading{{g.id}}n">
+            <h6 class="mb-0" color="green">
+              <button class="btn btn-link collapsed" type="button" data-toggle="collapse" attr.data-target="#collapse{{g.id}}n"
+                aria-expanded="false" attr.aria-controls="collapse{{g.id}}n" >
+                <i class="fa fa-folder"></i> {{ g.name }}
+                <span *ngIf="g.newArchives.length > 0" class="badge" style="background-color: red;">{{ g.newArchives.length }}</span>
+              </button>
+            </h6>
+          </div>
+          <div id="collapse{{g.id}}n" class="collapse" attr.aria-labelledby="heading{{g.id}}n" attr.data-parent="#accordionExample{{g.id}}n">
+            <div class="card-body">
+              <h6 class="mb-0 marge" *ngFor="let a of g.newArchives" >
+                 <a [routerLink]="['/archive',a.id]"><i class="fa fa-file-pdf-o"></i>&nbsp;{{ a.name }}</a>
+              </h6>
+            </div>
+          </div>
+        </div> -->
+
+      </div>
+    </div>
+  </div>
+</aside>

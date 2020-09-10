@@ -1,0 +1,130 @@
+<main id="tg-main" class="tg-main tg-haslayout">
+  <div class="tg-pagecontent" style="padding-bottom: 20px;">
+    <div class="container" style="margin: 10px; margin-right: 00px;">
+      <div class="row">
+
+        <div class="col-lg-3 col-sm-4 col-xs-12">
+          <app-left-side></app-left-side>
+        </div>
+
+
+        <div class="col-lg-9 col-sm-8 col-xs-12 pull-right">
+          <div id="tg-content" class="tg-content">
+            <div class="tg-sectionhead">
+              <div class="tg-sectiontitle">
+                <h1>Corbeille d'archives</h1>
+              </div>
+
+
+
+              <div class="row">
+                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                  <div class="tg-sectionhead">
+                    <div class="tg-description">
+                      <h4>Ici vous avez la liste de tout vos archives supprimées</h4>
+                    </div>
+                  </div>
+                </div>
+
+                <form class="tg-themeform" id="search-bar" >
+                  <p class="text-center" style="text-transform:uppercase">Filtrer vos résultats</p>
+                  <br>
+                  <fieldset>
+                    <div class="col-sm-3">
+                      <div class="form-group">
+                        <input type="text" class="form-control" name="name" [(ngModel)]="archiveFilter.name" placeholder="Nom">
+                      </div>
+                    </div>
+                    <div class="col-sm-3">
+                      <div class="form-group">
+                        <select class="form-control" name="categorie" [(ngModel)]="archiveFilter.categorie" >
+                          <option value="">Toute les catégorie</option>
+                          <option value="{{val}}" *ngFor="let val of allCategories">{{val}}</option>
+                        </select>
+                      </div>
+                    </div>
+                    <div class="col-sm-3">
+                      <div class="form-group">
+                        <input type="date" class="form-control" name="date" #box (keyup)="onDateFilterChange(box.value)" (change)="onDateFilterChange(box.value)"
+                        pattern="yyyy-MM-dd" placeholder="Date Suppression" title="Date Suppression">
+                      </div>
+                    </div>
+                    <div class="col-sm-3">
+                      <div class="form-group">
+                        <input type="email" class="form-control" name="archivistName" [(ngModel)]="archiveFilter.archivistName" placeholder="Versant">
+                      </div>
+                    </div>
+                  </fieldset>
+                </form>
+              </div>
+
+							<div class="table-responsive table-responsive-sm table-responsive-md table-responsive-lg table-responsive-xl">
+              <table class="table table-striped" [mfData]="archives | filterBy: archiveFilter" #mf="mfDataTable"
+                [mfRowsOnPage]="numberRowsOnPage" *ngIf="!isLoading && archives.length > 0">
+                <thead>
+                  <tr>
+                    <th>
+                      <input type="checkbox" [checked]="allChecked" (click)="checkAll()" />
+                    </th>
+                    <!-- <th *ngFor="let m of metadatas">
+                      <mfDefaultSorter by="name">{{ m.label }}</mfDefaultSorter>
+										</th> -->
+										<th>Nom</th>
+										<th>Catégorie</th>
+										<th>Versé par</th>
+										<th>Taille</th>
+										<th>supprimée le</th>
+										<th>Action</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr *ngFor="let a of mf.data; let i = index">
+                    <td>
+                      <input type="checkbox" name="{{a.id}}" (click)="checkItemCliked()" class="selection-checkbox" />
+                    </td>
+										<!-- <td *ngFor="let m of metadatas">{{ a[m.name] }}</td> -->
+										<td>{{ a.name }}</td>
+										<td><a (click)="goToCategory(a.category)">{{ a.category.name }}</a></td>
+										<td>{{ a.archivistName }}</td>
+										<td>{{ a.size }}</td>
+										<td>{{ a.date }}</td>
+                    <td class="td-action">
+                      <a title="Restaurer {{ a.name }}" class="btn btn-warning" (click)="restore(a)"><i class="fa fa-recycle"></i></a>&nbsp;
+                      <a *ngIf="canConsult" title="Détails sur {{ a.name }}" class="btn btn-info" [routerLink]="['/archive', a.id]" ><i class="fa fa-eye"></i></a>&nbsp;
+                      <a title="Supprimer {{ a.name }} de la corbeille" class="btn btn-danger" (click)="delete(a)"><i class="fa fa-remove"></i></a>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td colSpan="6">Avec la selection :</td>
+                    <td class="td-action">
+                      <a title="Restaurer sélection" class="btn btn-primary" (click)="restoreChecked()"><i class="fa fa-recycle"></i></a>
+                      <a title="Supprimer la sélection de la corbeille" class="btn btn-danger" (click)="deleteChecked()"><i class="fa fa-remove"></i></a>
+                    </td>
+                  </tr>
+                </tbody>
+                <tfoot>
+                  <tr>
+                    <td colSpan="7" *ngIf="(archives | filterBy: archiveFilter).length > numberRowsOnPage">
+                      <mfBootstrapPaginator [rowsOnPageSet]="[5,10,25,50,100]"></mfBootstrapPaginator>
+                    </td>
+                  </tr>
+                </tfoot>
+							</table>
+							</div>
+
+              <h4 class="text-center" *ngIf="archives.length === 0" style="padding-top: 25px;">
+                <span *ngIf="(archives | filterBy: archiveFilter).length === 0"> AUCUNE ARCHIVE TROUVEE </span>
+              </h4>
+
+              <p *ngIf="isLoading" class="text-center">
+                <img src="assets/images/loader/MnyxU.gif" alt="Loading image">
+              </p>
+
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</main>

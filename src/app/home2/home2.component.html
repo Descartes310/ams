@@ -1,0 +1,60 @@
+
+<main id="tg-main" class="tg-main tg-haslayout">
+	<div class="tg-pagecontent" style="padding-bottom: 20px;">
+		<div class="container">
+			<div class="row">
+				<div class="col-lg-4 col-sm-4 col-xs-12">
+					<app-left-side></app-left-side>
+				</div>
+				<div class="col-lg-8 col-sm-8 col-xs-12 pull-right">
+					<div id="tg-content" class="tg-content">
+						<div class="tg-sectionhead">
+							<div class="tg-sectiontitle">
+								<h1>Liste des groupes</h1>
+							</div>
+							<div class="tg-description">
+
+								<div class="tg-teammembers" style="margin-bottom: 10px;">
+
+									<div class="col-md-3 col-sm-offset-0 col-sm-3 col-xs-12">
+										<div class="tg-member" title="{{ allGroup.description }}" (click)="goToGroup(allGroup)">
+											<figure style="background-color: rgba(255, 255, 255, 0); border: 0px;">
+												<i class="fa fa-group" style="font-size: 8em; color:#daa236"></i>
+											</figure>
+											<div class="tg-memberinfo">
+												<div class="tg-membername">
+													<h6>
+														<a>
+															{{ allGroup.name }}
+														</a>
+													</h6>
+												</div>
+											</div>
+										</div>
+									</div>
+
+									<div class="col-md-3 col-sm-offset-0 col-sm-3 col-xs-12" *ngFor="let group of groups">
+										<div class="tg-member" title="{{ group.description }}" (click)="goToGroup(group)">
+											<figure style="background-color: rgba(255, 255, 255, 0); border: 0px;">
+												<i class="fa fa-group" style="font-size: 8em; color:#daa236"></i>
+											</figure>
+											<div class="tg-memberinfo">
+												<div class="tg-membername">
+													<h6>
+														<a>
+															{{ group.name }}
+														</a>
+													</h6>
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</main>

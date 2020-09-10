@@ -1,0 +1,258 @@
+<div id="tg-wrapper" class="tg-wrapper tg-haslayout">
+  <header id="tg-header" class="tg-header tg-haslayout" style="">
+    <div class="tg-navigationarea" style="box-shadow: 0px 0px 15px 5px rgba(0,0,0,.1); background-color: #003160!important; color:white!important">
+      <div class="container">
+        <div class="row">
+          <div class="col-sm-12 col-xs-12">
+            <h3 class="tg-logo" style="margin-top: 25px; margin-bottom: 25px;">
+              <a *ngIf="isAdmin()" routerLink="/admin/home" style="color:white!important">Archives Manager</a>
+			  <a *ngIf="!isAdmin()" routerLink="/home" style="color:white!important">Archives Manager</a>
+            </h3>
+            <nav id="tg-nav" class="tg-nav" style="padding-top: 25px;">
+              <div class="navbar-header">
+				<button id="btnnav" type="button" (click)="handle()" class="tg-btnnav navbar-toggle collapsed"
+				data-toggle="collapse" data-target="#tg-navigation" aria-expanded="false">
+                  <span class="sr-only">Toggle navigation</span>
+                  <span class="icon-bar"></span>
+                  <span class="icon-bar"></span>
+                  <span class="icon-bar"></span>
+                </button>
+              </div>
+			
+				<img *ngIf="isLoading" src="assets/images/loader/MnyxU.gif" alt="Loading image"  style="font-size: 15px; height:15px;">
+				<div *ngIf="!isLoading" id="tg-navigation" class="collapse navbar-collapse tg-navigation">
+								<ul>
+									<li *ngIf="hasPrivilige[20] || hasPrivilige[30] || hasPrivilige[40] || hasPrivilige[50] || hasPrivilige[80]"
+										class="tg-hasdropdown">
+										<a style="cursor: pointer; color:white!important">
+											<i class="fa fa-tasks"></i> Gestion des entités
+										</a>
+										<ul>
+											<li *ngIf="hasPrivilige[20]">
+												<a routerLink="/admin/users">
+													<i class="fa fa-user"></i> Utilisateurs
+												</a>
+											</li>
+											<li *ngIf="hasPrivilige[30]">
+												<a routerLink="/admin/roles">
+													<i class="fa fa-shield"></i> Rôles
+												</a>
+											</li>
+											<li *ngIf="hasPrivilige[40]">
+												<a routerLink="/admin/groups">
+													<i class="fa fa-group"></i> Groupes
+												</a>
+											</li>
+											<li *ngIf="hasPrivilige[50]">
+												<a routerLink="/admin/metadatas">
+													<i class="fa fa-align-justify"></i> Méta données
+												</a>
+											</li>
+											<li *ngIf="hasPrivilige[80]">
+												<a routerLink="/admin/categories">
+													<i class="fa fa-file"></i> Catégories
+												</a>
+											</li>
+										</ul>
+									</li>
+									<li *ngIf="hasPrivilige[95]">
+										<a routerLink="/admin/logs">
+											<i class="fa fa-newspaper-o"></i> Journal
+										</a>
+									</li>
+									<li *ngIf="hasPrivilige[70] || hasPrivilige[90] || hasPrivilige[97] || hasPrivilige[60]" 
+									class="tg-hasdropdown">
+										<a style="cursor: pointer; color:white!important">
+											<i class="fa fa-database"></i> Stockages
+										</a>
+										<ul>
+											<li *ngIf="hasPrivilige[90]">
+												<a routerLink="/admin/replication">
+													<i class="fa fa-clone"></i> Replication
+												</a>
+											</li>
+											<li *ngIf="hasPrivilige[97]" style="border-bottom-width: 5px;">
+												<a routerLink="/admin/export">
+													<i class="fa fa-download"></i> Exportations
+												</a>
+											</li>
+											<li *ngIf="hasPrivilige[60]">
+												<a routerLink="/admin/storages">
+													<i class="fa fa-hdd-o"></i> Site de replication
+												</a>
+											</li>
+											<li *ngIf="hasPrivilige[60]">
+												<a routerLink="/admin/type-de-fichier">
+													<i class="fa fa-file-o"></i> Types de fichiers
+												</a>
+											</li>
+										</ul>
+									</li>
+									
+									<!--    USER PRIVILEGES SECTION -->
+
+									<li *ngIf="hasPrivilige[11]" class="tg-hasdropdown">
+										<a style="cursor: pointer; color:white!important">
+											<i class="fa fa-archive"></i> Archives
+										</a>
+										<ul>
+												<li>
+													<a style="cursor:pointer" routerLink="/home" routerLinkActive="active">
+														<i class="fa fa-folder"></i> Par catégories
+													</a>
+												</li>
+												<li>
+													<a style="cursor:pointer" routerLink="/home2" routerLinkActive="active">
+														<i class="fa fa-group"></i> Par groupes
+													</a>
+												</li>
+											</ul>
+									</li>
+									<li *ngIf="hasPrivilige[12]">
+										<a href="Index" routerLink="/importer" routerLinkActive="active" style="color:white!important">
+											<i class="fa fa-upload"></i> Importer
+										</a>
+									</li>
+									<li *ngIf="hasPrivilige[10]">
+										<a href="Index" routerLink="/search" routerLinkActive="active" style="color:white!important">
+											<i class="fa fa-search"></i> Rechercher
+										</a>
+									</li>
+									<li *ngIf="hasPrivilige[14]" class="tg-hasdropdown">
+										<a style="cursor: pointer; color:white!important">
+											<i class="fa fa-download"></i> Exporter
+										</a>
+										<ul>
+												<li>
+													<a style="cursor:pointer" routerLink="/export" routerLinkActive="active">
+														<i class="fa fa-folder"></i> Par catégories
+													</a>
+												</li>
+												<li>
+													<a style="cursor:pointer" routerLink="/export2" routerLinkActive="active">
+														<i class="fa fa-group"></i> Par groupes
+													</a>
+												</li>
+										</ul>
+									</li>
+
+									<li class="tg-hasdropdown">
+										<a style="cursor: pointer; color:white!important">
+											<i class="fa fa-user"></i> {{ user.firstName }} {{ user.lastName }}
+										</a>
+										<ul>
+												<li *ngIf="hasPrivilige[2]">
+													<a style="cursor:pointer" routerLink="/user-profil" routerLinkActive="active">
+														<i class="fa fa-user"></i> Profile
+													</a>
+												</li>
+												<li *ngIf="hasPrivilige[16]">
+													<a style="cursor:pointer" routerLink="/trash" routerLinkActive="active">
+														<i class="fa fa-trash-o"></i> Corbeille
+													</a>
+												</li>
+												<li *ngIf="hasPrivilige[16]">
+													<a style="cursor:pointer" data-toggle="modal" data-target="#restoreModal" >
+														<i class="fa fa-recycle"> Grande restauration</i> 
+													</a>
+												</li>
+												<li>
+													<a style="cursor:pointer" routerLink="/logout">
+														<i class="fa fa-sign-out"></i> Déconnexion
+													</a>
+												</li>
+										</ul>
+									</li>
+								</ul>
+							</div>
+						</nav>
+					</div>
+				</div>
+			</div>
+	</div>
+</header>
+</div>
+
+<!-- Modal for password -->
+<div class="backdrop" [ngStyle]="{'display':isWaiting ? 'block':'none'}"></div>
+
+<div class="modal fade" tabindex="-1" role="dialog" [ngStyle]="{'display':isWaiting ? 'block':'none'}">
+	<div class="modal-dialog" role="document">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h4 class="modal-title">Operation en cours</h4>
+			</div>
+			<div class="modal-body">
+				<div class="row">
+					<div class="col-md-8 col-md-offset-2">
+						<p><img src="assets/images/loader/MnyxU.gif" alt="Loading image"></p>
+					</div>
+				</div>
+			</div>
+			<div class="modal-footer">
+			</div>
+		</div><!-- /.modal-content -->
+	</div><!-- /.modal-dialog -->
+</div><!-- /.modal !-->
+
+
+<!-- Modal for restoration -->
+<div class="modal fade" tabindex="-1" role="dialog" id="restoreModal">
+	<div class="modal-dialog" role="document">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" aria-label="Close" data-dismiss="modal"><span aria-hidden="true">&times;</span></button>
+				<h4 class="modal-title">Restaurer toutes vos archives supprimées</h4>
+			</div>
+			<div class="modal-body">
+				<form #f='ngForm'>
+
+					<div class="row">
+						<div class="form-group">
+							<div class="col-md-3">
+								<label for="since" class="col-form-label">
+									A partir du
+								</label>
+							</div>
+							<div class="col-md-8">
+								<input [type]="sinceIsEmpty ? 'text':'date'" 
+									placeholder="Laissez le vide pour une restauration totale" 
+									class="form-control" 
+									id="since" 
+									name="date"
+									(focus)="onDateFocus()"
+									(blur)="onDateBlur()"
+									[(ngModel)]="since" 
+									autocomplete="off">
+							</div>
+						</div>
+					</div>
+					<br>
+					<div class="row">
+						<div class="form-group">
+							<div class="col-md-3">
+								<label for="password" class="col-form-label">
+									Mot de passe <small style="color:red">*</small>
+								</label>
+							</div>
+							<div class="col-md-8">
+								<input type="password" 
+									class="form-control" 
+									id="password"
+									name="password" 
+									placeholder="le mot de passe est requis"
+									required 
+									[(ngModel)]="password" 
+									autocomplete="off">
+							</div>
+						</div>
+					</div>
+				</form>
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-default" data-dismiss="modal" (click)="restore()" [disabled]='f.invalid'>Restaurer</button>
+				<button type="button" class="btn btn-default" data-dismiss="modal">Annuler</button>
+			</div>
+		</div><!-- /.modal-content -->
+	</div><!-- /.modal-dialog -->
+</div><!-- /.modal !-->

@@ -1,0 +1,84 @@
+<main id="tg-main" class="tg-main tg-haslayout">
+  <div class="tg-pagecontent" style="padding-bottom: 20px;">
+    <div class="container">
+      <div class="row">
+        <!--************************************
+            Inner Banner Start
+        *************************************-->
+        <div class="col-sm-12">
+          <div class="tg-innerbannercontent">
+            <div class="tg-pagetitle">
+              <h1>
+                <i class="fa fa-folder"></i> Edition du stockage "{{ getAddStorageForm.name.value }}"</h1>
+            </div>
+            <ol class="tg-breadcrumb">
+              <li>
+                  <i class="fa fa-home"></i>
+              </li>
+              <li class="tg-active">stockage</li>
+            </ol>
+          </div>
+        </div>
+        <!--************************************
+            Inner Banner End
+        *************************************-->
+        <div class="col-lg-7 col-sm-7 col-xs-12">
+          <div class="col-lg-12 col-sm-12 col-xs-12" style="padding: 0px;">
+            <aside id="tg-siderbar" class="tg-siderbar">
+              <div class="tg-widget tg-widgetprojectdescription">
+                <div class="tg-widgettitle">
+                  <div class="col-lg-8 col-sm-8 col-xs-12">
+                    <h3>Informations</h3>
+                  </div>
+                </div>
+                <div class="tg-widgetcontent">
+                  <p><span style="color: red; font-size: 1.3em;">Conseil</span>: <em>Quand vous modifiez le chemin de destination d'un serveur, les sauvegardes faites sur ce dernier seront perdues ! Vous devez à nouveau effectuer un backup pour revenir à la normal...</em></p>
+                  <form [formGroup]="addStorageForm" (submit)="editStorage()" method="POST">
+                    <div class="form-group">
+                      <label for="name">Nom du stockage
+                        <span class="invalid-feedback">*</span>
+                      </label>
+                      <input type="text" name="name" required formControlName="name" class="form-control" id="name" autocomplete="off" placeholder="Name">
+                      <div *ngIf="isSubmitted && getAddStorageForm.name.errors" class="invalid-feedback">
+                        <div *ngIf="getAddStorageForm.name.errors.required">Champs requis</div>
+                        <div *ngIf="getAddStorageForm.name.errors.minlength">Mininum 3 caractères</div>
+                        <div *ngIf="getAddStorageForm.name.errors.maxlength">Maximum 20 caractères</div>
+                      </div>
+                    </div>
+                    <div class="form-group">
+                      <label for="address">Adresse du stockage
+                        <span class="invalid-feedback">*</span>
+                      </label>
+                      <input type="text" name="address" disabled required formControlName="address" class="form-control" id="address" autocomplete="off"
+                        placeholder="address">
+                      <div *ngIf="isSubmitted && getAddStorageForm.address.errors" class="invalid-feedback">
+                        <div *ngIf="getAddStorageForm.address.errors.required">Champs requis</div>
+                        <div *ngIf="getAddStorageForm.address.errors.pattern">Format d'adresse IP non valide</div>
+                      </div>
+                    </div>
+                    <div class="form-group">
+                      <label for="path">Chemin d'accès
+                        <span class="invalid-feedback">*</span>
+                      </label>
+                      <input type="text" name="path" required formControlName="path" class="form-control" id="path" autocomplete="off" placeholder="path">
+                      <div *ngIf="isSubmitted && getAddStorageForm.path.errors" class="invalid-feedback">
+                        <div *ngIf="getAddStorageForm.path.errors.required">Champs requis</div>
+                        <div *ngIf="getAddStorageForm.path.errors.pattern">Format du chemin non valide</div>
+                      </div>
+                    </div>
+                    <div class="form-group">
+                      <button type="submit" class="btn btn-primary btn-lg pull-right" [disabled]="loading">
+                        <img *ngIf="loading" src="assets/images/loader/MnyxU.gif" width="30px;"> Valider
+                        <i class="fa fa-edit"></i>
+                      </button>
+                    </div>
+                  </form>
+                </div>
+              </div>
+            </aside>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</main>

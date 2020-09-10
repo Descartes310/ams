@@ -1,0 +1,267 @@
+
+<!--************************************
+				Main Start
+    *************************************-->
+<p *ngIf="isLoading && !formSubmitted" class="text-center" id="image-loader">
+  <img src="assets/images/loader/MnyxU.gif" alt="Loading image">
+</p>
+<main *ngIf="!isLoading || formSubmitted" id="tg-main" class="tg-main tg-haslayout">
+  <div class="tg-pagecontent">
+    <div class="container">
+      <div class="row">
+        <div class="tg-member tg-detailpage">
+          <div class="col-sm-3 col-xs-12 pull-left">
+            <figure>
+              <app-avatar [avatar]="user.avatar" alt="Avartar de {{ user.name }}" ></app-avatar>
+              <figcaption *ngIf="canEditProfile">
+                <ul class="tg-socialprofilelinks">
+                  <li><a class="pointer" title="Changer photo de profile" (click)="selectFile.click()"><i class="fa fa-edit"></i></a></li>
+                  <input style='display: none' type='file' (change)='onFileUpload($event)' #selectFile>
+                </ul>
+              </figcaption>
+            </figure>
+          </div>
+
+          <div class="col-sm-8 col-xs-12 pull-right">
+            <div class="tg-sectionhead">
+              <div class="tg-sectiontitle">
+                <h2>{{ user.grade }}</h2>
+                <h3>{{ user.firstName }} {{ user.lastName }}</h3>
+              </div>
+              <div class="tg-description">
+                <p>Dans ce tableau vous avez tout les détails sur vous, à guauche les libelés et à droite les
+                  valeurs correspondantes.</p>
+              </div>
+            </div>
+            <div class="tg-memberinfo" style="margin-bottom: 20px;">
+              <span>Nom :</span>
+              <span>{{ user.firstName }}</span>
+
+              <span>Prénom :</span>
+              <span>{{ user.lastName ? user.lastName : ' - ' }}</span>
+
+              <span>Login :</span>
+              <span>{{ user.login }}</span>
+
+              <span>Grade :</span>
+              <span>{{ user.grade }}</span>
+
+              <span>Téléphone :</span>
+              <span>{{ user.telephone ? user.telephone : ' - ' }}</span>
+
+              <span>E-mail :</span>
+              <span>{{ user.email ? user.email : ' - ' }}</span>
+
+              <span>Rôles :</span>
+              <span>
+								<i *ngFor="let role of user.roles; let i = index">{{ i>0 ? ' - ':''}} {{ role.name }}</i>
+							</span>
+
+              <span>Derniere connexion :</span>
+							<span>{{ user.lastLogin ? user.lastLogin : ' - ' }}</span>
+							
+              <span>Derniere deconnexion :</span>
+              <span>{{ user.lastLogout ? user.lastLogout : ' - ' }}</span>
+
+              <span>Derniere mise à jour :</span>
+              <span>{{ user.updatedAt }}</span>
+
+              <span>Date de création du compte :</span>
+              <span>{{ user.createdAt }}</span>
+            </div>
+            <br>
+            <div *ngIf="canEditProfile" class="text-center row">
+							<div class="col-md-6 col-xs-12" style="margin-bottom:2%;">
+              	<button class="tg-btn" data-toggle="modal" data-target="#editForm" ><span><i class="fa fa-edit"></i>&nbsp;Editer profile</span></button>&nbsp;
+							</div>
+							<div class="col-md-6 col-xs-12">
+								<button class="tg-btn" data-toggle="modal" data-target="#passForm"><span><i class=" fa fa-edit"></i>&nbsp;Changer mot de passe</span></button>
+							</div>
+						</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</main>
+<!--************************************
+				Main End
+    *************************************-->
+
+<!-- Modal -->
+
+<div class="modal fade" tabindex="-1" role="dialog" id="editForm">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" aria-label="Close" data-dismiss="modal"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title">Editer votre profile</h4>
+      </div>
+      <div class="modal-body">
+        <form #f='ngForm'>
+
+          <div class="row">
+            <div class="form-group">
+              <div class="col-md-2">
+                <label for="firstName" class="col-form-label">Nom:</label>
+              </div>
+              <div class="col-md-10">
+                <input type="text" class="form-control" id="firstName" name="firstName" required [(ngModel)]="model.firstName">
+              </div>
+            </div>
+          </div>
+          <br>
+          <div class="row">
+            <div class="form-group">
+              <div class="col-md-2">
+                <label for="lastName" class="col-form-label">Prénom:</label>
+              </div>
+              <div class="col-md-10">
+                <input type="text" class="form-control" id="lastName" name="lastName" [(ngModel)]="model.lastName">
+              </div>
+            </div>
+          </div>
+          <br>
+          <div class="row">
+            <div class="form-group">
+              <div class="col-md-2">
+                <label for="login" class="col-form-label">Login:</label>
+              </div>
+              <div class="col-md-10">
+                <input type="text" class="form-control" id="login" name="login" minlength="3" required [(ngModel)]="model.login">
+                <small [hidden]="model.login && model.login.length >= 3">
+                  Minimum 3 characters.
+                </small>
+              </div>
+            </div>
+          </div>
+          <br>
+          <div class="row">
+            <div class="form-group">
+              <div class="col-md-2">
+                <label for="email" class="col-form-label">E-mail:</label>
+              </div>
+              <div class="col-md-10">
+                <input type="email" email class="form-control" id="email" name="email" required [(ngModel)]="model.email">
+              </div>
+            </div>
+          </div>
+          <br>
+          <div class="row">
+            <div class="form-group">
+              <div class="col-md-2">
+                <label for="grade" class="col-form-label">Grade:</label>
+              </div>
+              <div class="col-md-10">
+                <input type="text" class="form-control" id="grade" name="grade" required [(ngModel)]="model.grade">
+              </div>
+            </div>
+          </div>
+          <br>
+          <div class="row">
+            <div class="form-group">
+              <div class="col-md-2">
+                <label for="telephone" class="col-form-label">Téléphone:</label>
+              </div>
+              <div class="col-md-10">
+                <input type="number" class="form-control" id="telephone" name="telephone" required [(ngModel)]="model.telephone">
+              </div>
+            </div>
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal" (click)="onModalButtonPressed()" [disabled]='f.invalid'>Confirmer</button>
+        <button type="button" class="btn btn-default" data-dismiss="modal">Annuler</button>
+      </div>
+    </div><!-- /.modal-content -->
+  </div><!-- /.modal-dialog -->
+</div><!-- /.modal !-->
+
+<!-- Modal for password -->
+<div class="modal fade" tabindex="-1" role="dialog" id="passForm">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" aria-label="Close" data-dismiss="modal"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title">Changer votre mot de passe</h4>
+      </div>
+      <div class="modal-body">
+        <form #fp='ngForm'>
+
+          <div class="row">
+            <div class="form-group">
+              <div class="col-md-2">
+                <label for="oldPassword" class="col-form-label">Ancien:</label>
+              </div>
+              <div class="col-md-10">
+                <input type="text" class="form-control" id="oldPassword" name="oldPassword" required [(ngModel)]="model.oldPassword">
+              </div>
+            </div>
+          </div>
+          <br>
+          <div class="row">
+            <div class="form-group">
+              <div class="col-md-2">
+                <label for="password2" class="col-form-label">Nouveau:</label>
+              </div>
+              <div class="col-md-10">
+                <input type="text" class="form-control" id="password2" name="password" minlength="4" [(ngModel)]="model.password">
+                <small [hidden]="!model.password || model.password.length >= 4">
+                  Minimum 4 characters.
+                </small>
+              </div>
+            </div>
+          </div>
+          <br>
+          <div class="row">
+            <div class="form-group">
+              <div class="col-md-2">
+                <label for="confirmation" class="col-form-label">Confirmation:</label>
+              </div>
+              <div class="col-md-10">
+                <input type="text" #cp
+                      class="form-control"
+                      id="confirmation"
+											[disabled]="!model.password || model.password.length < 4"
+                      [pattern]="true ? fp.value.password : ''"
+                      name="confirmation"
+                      required
+                      [(ngModel)]="confirmation">
+                <small [hidden]="cp.disabled || cp.value == model.password">
+                  Les 2 mots de passe sont différent
+                </small>
+              </div>
+            </div>
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal" (click)="onPasswordModalButtonPressed()" [disabled]='fp.invalid'>Confirmer</button>
+        <button type="button" class="btn btn-default" data-dismiss="modal">Annuler</button>
+      </div>
+    </div><!-- /.modal-content -->
+  </div><!-- /.modal-dialog -->
+</div><!-- /.modal !-->
+
+<!-- Modal for waiting -->
+<div class="backdrop" [ngStyle]="{'display':isLoading ? 'block':'none'}"></div>
+
+<div class="modal fade" tabindex="-1" role="dialog" [ngStyle]="{'display':isLoading ? 'block':'none'}">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title">Operation en cours</h4>
+      </div>
+      <div class="modal-body">
+        <div class="row">
+          <div class="col-md-8 col-md-offset-2">
+            <p><img src="assets/images/loader/MnyxU.gif" alt="Loading image"></p>
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+      </div>
+    </div><!-- /.modal-content -->
+  </div><!-- /.modal-dialog -->
+</div><!-- /.modal !-->

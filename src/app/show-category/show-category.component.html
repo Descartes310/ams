@@ -1,0 +1,122 @@
+<main id="tg-main" class="tg-main tg-haslayout">
+<div class="tg-pagecontent" style="padding-bottom: 20px;">
+  <div class="container" style="margin: 10px; margin-right: 00px;">
+    <div class="row">
+
+      <div class="col-lg-3 col-sm-4 col-xs-12">
+        <app-left-side></app-left-side>
+      </div>
+
+
+      <div class="col-lg-9 col-sm-8 col-xs-12 pull-right">
+        <div id="tg-content" class="tg-content">
+          <div class="tg-sectionhead">
+            <div class="tg-sectiontitle">
+              <h1 *ngIf="category.id === 0">Archives (toute les catégories)</h1>
+              <h1 *ngIf="category.id > 0">Archives de la catégorie : {{ category.name }}</h1>
+            </div>
+
+
+
+            <div class="row">
+              <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                <div class="tg-sectionhead">
+                  <div class="tg-description">
+                    <h4>{{ category.description }}</h4>
+                  </div>
+                </div>
+              </div>
+
+              <form class="tg-themeform" id="search-bar">
+                <p class="text-center" style="text-transform:uppercase">Filtrer vos résultats</p>
+                <br>
+                <fieldset>
+                  <div class="col-sm-3">
+                    <div class="form-group">
+                      <input type="text" class="form-control" name="name" [(ngModel)]="archiveFilter.name" placeholder="Nom">
+                    </div>
+                  </div>
+                  <div class="col-sm-3">
+                    <div class="form-group">
+                      <select class="form-control" name="categorie" [(ngModel)]="archiveFilter.categorie">
+                        <option value="">Toute les catégorie</option>
+                        <option value="{{val}}" *ngFor="let val of allCategories">{{val}}</option>
+                      </select>
+                    </div>
+                  </div>
+                  <div class="col-sm-3">
+                    <div class="form-group">
+                      <input type="date" class="form-control" name="date" #box (keyup)="onDateFilterChange(box.value)" (change)="onDateFilterChange(box.value)"
+                        pattern="yyyy-MM-dd" placeholder="Date">
+                    </div>
+                  </div>
+                  <div class="col-sm-3">
+                    <div class="form-group">
+                      <input type="email" class="form-control" name="archivistName" [(ngModel)]="archiveFilter.archivistName" placeholder="Versant">
+                    </div>
+                  </div>
+                </fieldset>
+              </form>
+            </div>
+
+
+
+
+            <div class="tg-description">
+
+              <div class="col-md-12 text-center" style="margin:23px;" *ngIf="(archives | filterBy: archiveFilter).length === 0">
+                <h3>Aucune archive trouvée !</h3>
+              </div>
+
+              <div class="col-md-{{ (archives | filterBy: archiveFilter).length <= 3 ? '4': ((archives | filterBy: archiveFilter).length < 50 ? '3' : '2') }} col-sm-10 col-sm-offset-1 col-xs-10 col-xs-offset-1"
+                *ngFor="let archive of archives | filterBy: archiveFilter | paginate: { itemsPerPage: 10, currentPage: p }">
+                <div class="tg-member">
+                  <figure>
+                    <app-cover cover="{{ archive.cover }}" category="{{ archive.category.slug }}" alt="{{ archive.name }}"></app-cover>
+                    <figcaption>
+                      <ul class="tg-socialprofilelinks">
+                        <li>
+                          <a>
+                            <i class="fa fa-eye" title="Détail" [routerLink]="['/archive', archive.id]"></i>
+                          </a>
+                        </li>&nbsp;
+                        <li *ngIf="canDownload">
+                          <a>
+                            <i class="fa fa-download" title="Télécharger" (click)="download(archive)"></i>
+                          </a>
+                        </li>&nbsp;
+                        <li *ngIf="canDelete">
+                          <a>
+                            <i class="fa fa-remove" title="Supprimer" (click)="delete(archive)"></i>
+                          </a>
+                        </li>&nbsp;
+                      </ul>
+                    </figcaption>
+                  </figure>
+                  <div class="tg-memberinfo">
+                    <div class="tg-membername">
+                      <h4>
+                        <a href="#">{{ archive.name }}</a>
+                      </h4>
+                    </div>
+                    <div class="tg-memberdesignation">
+                      <span>Versé par {{ archive.archivistGrade }} {{ archive.archivistName }} </span>
+                      <br />
+                    </div>
+                  </div>
+                </div>
+
+              </div>
+              <pagination-controls id="pagination_control" (pageChange)="p = $event" maxSize="9" directionLinks="true" autoHide="true"
+                responsive="true" previousLabel="Préc" nextLabel="Suiv" screenReaderPaginationLabel="Pagination" screenReaderPageLabel="page"
+                screenReaderCurrentLabel="Vous êtes sur la page">
+              </pagination-controls>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+</main>

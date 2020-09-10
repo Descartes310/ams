@@ -1,0 +1,58 @@
+.container {
+  width: 97%;
+}
+
+.tg-sectiontitle {
+  padding-bottom: 10px;
+}
+
+$barColor: unquote('#ddddd847');
+
+#search-bar {
+  background-color: $barColor;
+  padding-top: 20px;
+  margin-bottom: 0px;
+}
+
+#filter-bar{
+  background-color: $barColor;
+  padding: 10px;
+  padding-bottom: 20px;
+  margin-bottom: 30px;
+}
+
+.figcaption-content {
+  color: aliceblue;
+  padding: 5px;
+
+  strong {
+    color: white;
+  }
+
+
+  .fa {
+    font-size: 2em;
+  }
+}
+
+
+table{
+  padding-top: 20px;
+
+  .page-link{
+    a:hover,
+    .pagination>.active>span:hover,
+    .pagination>.active>a:focus,
+    .pagination>.active>span:focus {
+      z-index: 3;
+      color: #fff;
+      cursor: default;
+      background-color: red;// #004281;
+      border-color: red;// #337ab7;
+    }
+  }
+}
+
+
+
+

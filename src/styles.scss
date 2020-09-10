@@ -1,0 +1,30 @@
+/* You can add global styles to this file, and also import other style files */
+@import "~bootstrap/dist/css/bootstrap.css";
+
+
+input{
+  text-transform: none !important;
+}
+
+.backdrop {
+  background-color: rgba(0, 0, 0, 0.6);
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100vh;
+}
+
+form input,
+textarea {
+	text-transform: none;
+}
+
+ng-multiselect-dropdown ul li {
+	list-style-type: none;
+}
+
+form input,
+textarea {
+	text-transform: none;
+}

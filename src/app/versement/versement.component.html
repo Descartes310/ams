@@ -1,0 +1,214 @@
+<main id="tg-main" class="tg-main tg-haslayout">
+  <div class="tg-pagecontent" style="padding-bottom: 20px;">
+    <div class="container" style="margin: 10px; margin-right: 00px;">
+      <div class="row">
+
+
+        <div class="col-lg-4 col-sm-4 col-xs-10">
+          <app-left-side></app-left-side>
+        </div>
+
+        <div class="col-lg-8 col-sm-8 col-xs-12 pull-right">
+          <div id="tg-content" class="tg-content">
+            <div class="tg-sectionhead">
+              <div class="tg-sectiontitle">
+                <h1>Importer des archives</h1>
+              </div>
+
+
+
+              <div class="row">
+                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                  <div class="tg-sectionhead">
+                    <div class="tg-description">
+                      <h4>Glissez et déposez les fichiers PDF dans la zone bleue</h4>
+                    </div>
+                  </div>
+                </div>
+                <form class="tg-themeform">
+                  <fieldset>
+
+                    <div class="col-sm-12 col-xs-12">
+                      <div class="form-group" style="margin-bottom: 5%;">
+                        <file-drop headertext=" "
+                                  (onFileDrop)="dropped($event)"
+                                  (onFileOver)="fileOver($event)"
+                                  (onFileLeave)="fileLeave($event)"
+                                  showBrowseBtn="true">
+                          <span style="margin: 2%;" id="drop-zone-text">Glissez et déposez les fichiers PDF ici,
+                          	ou cliquez sur ce boutton &nbsp;</span>
+                        </file-drop>
+                      </div>
+                      <br/>
+                      <div
+                      	class="upload-table table table-responsive table-responsive-sm table-responsive-md table-responsive-lg table-responsive-xl">
+                        <table class="table table-responsive table-responsive-sm table-responsive-md table-responsive-lg table-responsive-xl">
+                          <thead>
+                            <tr>
+                              <th>#</th>
+                              <th>Groupes</th>
+                              <th>Fichier</th>
+                              <th>Taille</th>
+                              <th>Derniere modification</th>
+                              <th>Action</th>
+                            </tr>
+                          </thead>
+                          <tbody class="upload-name-style">
+                            <tr *ngFor="let item of files; let i=index">
+                              <td>{{ i+1 }}</td>
+                              <td>{{ item.groups }}</td>
+                              <td>{{ item.path }}</td>
+                              <td>{{ item.size }}</td>
+                              <td>{{ item.lastModified }}</td>
+                              <td><button class="btn btn-primary" (click)="delFile(item.path)">Supprimer</button></td>
+                            </tr>
+                          </tbody>
+                        </table> 							
+                      </div>
+                    </div>
+                    <div class="col-md-offset-5 col-md-4 col-sm-offset-5 col-sm-4 col-xs-6 col-xs-offset-3 text-center" style="margin-top: 4%;">
+                      <button type="button" id='verser-but' class="tg-btn" [disabled]='files.length == 0' (click)='uploadFiles()'><span>Importer</span></button>
+                    </div>
+                  </fieldset>
+                </form>
+              </div>
+
+
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</main>
+
+<!-- Modal-->
+<div class="backdrop" [ngStyle]="{'display':display}"></div>
+
+<div class="modal" tabindex="-1" role="dialog" [ngStyle]="{'display':display}">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" aria-label="Close" (click)="onCloseHandled()"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title">Enter les metas données pour ce document</h4>
+      </div>
+      <div class="modal-body">
+        <form #f='ngForm'>
+          <div class="row">
+						
+						<div class="col-sm-6" >
+							<div class="form-group">
+                <input type="text" class="form-control" name="name" required placeholder="Nom"  #boxName [value]="name" (change)="onNameChanged(boxName.value)">
+              </div>
+						</div>
+
+						<!-- category-->
+            <div class="col-sm-6" >
+							<div class="form-group">
+								<select class="form-control" name="categorie" required placeholder="Catégorie" #s (change)="onCategoryChanged(s.value)" [value]="categoryId">
+									<option selected value="">Sélectionner une catégorie</option>
+									<option *ngFor="let category of categories" value="{{category.id}}" title="{{ category.description }}">{{ category.name }}</option>
+								</select>
+              </div>
+						</div>
+						<!-- /category-->
+					</div>
+					<div class="row">
+            <div class="col-sm-6" *ngFor="let m of metadatas">
+              <div class="form-group">
+								<small>{{ m.label }}</small>
+                <input type="{{ m.type }}" class="form-control" name="{{ m.name }}" required ngModel placeholder="{{ m.label }}"  #box
+                    (keyup.enter)="updateMetadataValues(box.value , m.name)"
+                    (blur)="updateMetadataValues(box.value, m.name)">
+              </div>
+						</div>
+					</div>
+					<div class="row">
+            <div class="col-sm-12">
+              <div class="form-group">
+                <label for="groupes-select">Choississez les groupes de l'archives</label>
+                <div class="col-sm-12">
+
+									<ng-multiselect-dropdown
+										name="groups"
+										required
+                    placeholder="Groupes"
+                    [data]="groups"
+                    [(ngModel)]="selectedGoups"
+                    [settings]="dropdownSettings"
+                    (onSelect)="onItemSelect($event)"
+                    (onDeSelect)="onItemDeSelect($event)"
+                    (onSelectAll)="onSelectAll($event)"
+                    (onDeSelectAll)="onDeSelectAll($event)"
+                  >
+                  </ng-multiselect-dropdown>
+
+                </div>
+              </div>
+            </div>
+					</div>
+
+					<div class="row">
+            <div class="col-sm-12">
+              <div class="form-group">
+                <label for="groupes-select">Choississez les évantuels particulier parmis le reste des utilisateurs</label>
+                <div class="col-sm-12">
+
+									<ng-multiselect-dropdown
+										name="users"
+                    placeholder="Utilisateurs restant"
+                    [data]="interests"
+                    [(ngModel)]="selectedUsers"
+                    [settings]="dropdownSettings2"
+                    (onSelect)="onItemSelect2($event)"
+                    (onDeSelect)="onItemDeSelect2($event)"
+										(onSelectAll)="onSelectAll2($event)"
+										(onDeSelectAll)="onDeSelectAll2($event)"
+                  >
+                  </ng-multiselect-dropdown>
+
+                </div>
+              </div>
+            </div>
+					</div>
+
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" (click)="onModalSaveButtonPressed()" [disabled]='f.invalid || !name || !categoryId'>Confirmer</button>
+        <button type="button" class="btn btn-default" (click)="onCloseHandled()">Annuler</button>
+      </div>
+    </div><!-- /.modal-content -->
+  </div><!-- /.modal-dialog -->
+</div><!-- /.modal !-->
+
+
+
+
+
+
+
+
+
+
+
+<!-- Progrssion Modal-->
+<div class="backdrop" [ngStyle]="{'display':processing ? 'block':'none'}"></div>
+
+<div class="modal" tabindex="-1" role="dialog" [ngStyle]="{'display':processing ? 'block':'none' }">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title">Envoi des données</h4>
+      </div>
+      <div class="modal-body">
+
+        <progress-bar [progress]="progressionPercent" [color]="'#488aff'"></progress-bar>
+
+      </div>
+      <div class="modal-footer">
+      </div>
+    </div><!-- /.modal-content -->
+  </div><!-- /.modal-dialog -->
+</div><!-- /.modal !-->

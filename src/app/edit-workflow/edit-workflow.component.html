@@ -1,0 +1,125 @@
+<main id="tg-main" class="tg-main tg-haslayout">
+  <div class="tg-pagecontent" style="padding-bottom: 20px;">
+    <div class="container">
+      <div class="row">
+        <!--************************************
+            Inner Banner Start
+        *************************************-->
+        <div class="col-sm-12">
+          <div class="tg-innerbannercontent">
+            <div class="tg-pagetitle">
+              <h1>
+                <i class="fa fa-clock-o"></i> Editer la plannification "{{getAddForm.name.value}}"</h1>
+            </div>
+            <ol class="tg-breadcrumb">
+              <li>
+                  <i class="fa fa-home"></i>
+              </li>
+              <li class="tg-active">plannification</li>
+            </ol>
+          </div>
+        </div>
+        <!--************************************
+            Inner Banner End
+        *************************************-->
+
+        <form (submit)="onSubmit()" method="POST" [formGroup]="addForm">
+          <div class="col-lg-7 col-sm-7 col-xs-12">
+            <div class="col-lg-12 col-sm-12 col-xs-12" style="padding: 0px;">
+              <aside id="tg-siderbar" class="tg-siderbar">
+                <div class="tg-widget tg-widgetprojectdescription">
+                  <div class="tg-widgettitle">
+                    <div class="col-lg-8 col-sm-8 col-xs-12">
+                      <h3>Informations
+                      </h3>
+                    </div>
+                  </div>
+                  <div class="tg-widgetcontent">
+                    <div class="form-group">
+                      <label for="name">Nom
+                        <span class="invalid-feedback">*</span>
+                      </label>
+                      <input type="text" name="name" required formControlName="name" class="form-control" id="name" autocomplete="off" placeholder="Nom">
+                      <div *ngIf="isSubmitted && getAddForm.name.errors" class="invalid-feedback">
+                        <div *ngIf="getAddForm.name.errors.required">Champs requis</div>
+                        <div *ngIf="getAddForm.name.errors.minlength">Mininum 3 caractères</div>
+                      </div>
+                    </div>
+                    <div class="form-group">
+                      <label for="date">Date d'exécution
+                        <span class="invalid-feedback">*</span>
+                      </label>
+                      <input type="date" name="date" min="{{today}}" required formControlName="date" class="form-control" id="date" autocomplete="off" placeholder="date">
+                      <div *ngIf="isSubmitted && getAddForm.date.errors" class="invalid-feedback">
+                        <div *ngIf="getAddForm.date.errors.required">Champs requis</div>
+                      </div>
+                    </div>
+                    <div class="form-group">
+                      <label for="time">Heure
+                        <span class="invalid-feedback">*</span>
+                      </label>
+                      <input type="time" name="time" required formControlName="time" class="form-control" id="time" autocomplete="off" placeholder="time">
+                      <div *ngIf="isSubmitted && getAddForm.time.errors" class="invalid-feedback">
+                        <div *ngIf="getAddForm.time.errors.required">Champs requis</div>
+                      </div>
+                    </div>
+                    <div class="form-group">
+                      <button type="submit" class="btn btn-primary btn-lg pull-right" [disabled]="loading">
+                        <img *ngIf="loading" src="assets/images/loader/MnyxU.gif" width="30px;"> &nbsp;&nbsp;Valider
+                        <i class="fa fa-edit"></i>
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              </aside>
+            </div>
+          </div>
+          <div class="col-lg-5 col-sm-5 col-xs-12">
+            <div class="col-lg-12 col-sm-12 col-xs-12" style="padding: 0px;">
+              <aside id="tg-siderbar" class="tg-siderbar">
+                <div class="tg-widget tg-widgetprojectdescription">
+                  <div class="tg-widgettitle">
+                    <div class="col-lg-8 col-sm-8 col-xs-12">
+                      <h3>Paramètres</h3>
+                    </div>
+                  </div>
+                  <div class="tg-widgetcontent memberslist">
+                    <div class="col-lg-12 col-sm-12 col-xs-12">
+                      <div class="form-group">
+                        <label for="name">Serveur destination
+                          <span class="invalid-feedback">*</span>
+                        </label>
+                        <ng-multiselect-dropdown [placeholder]="'Choisir le serveur destination'" formControlName="servers" [data]="dropdownListServer" [(ngModel)]="selectedItemsServer"
+                          [settings]="dropdownSettingsServer" (onSelect)="onItemSelectS($event)" (onDeSelect)="onItemDeSelectS($event)"
+                          (onDeSelectAll)="onSelectAllS($event)" (onSelectAll)="onSelectAllS($event)">
+                        </ng-multiselect-dropdown>
+                      </div>
+                      <div class="form-group">
+                        <label for="login">Login
+                          <span class="invalid-feedback">*</span>
+                        </label>
+                        <input type="text" name="login" required class="form-control" formControlName="login" id="login">
+                        <div *ngIf="loginError" class="invalid-feedback">
+                          <div>Champs requis</div>
+                        </div>
+                      </div>
+                      <div class="form-group">
+                        <label for="password">Mot de passe
+                          <span class="invalid-feedback">*</span>
+                        </label>
+                        <input type="text" name="password" formControlName="password" required class="form-control" id="password">
+                        <div *ngIf="passwordError" class="invalid-feedback">
+                          <div>Champs requis</div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </aside>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</main>

@@ -1,0 +1,91 @@
+<main id="tg-main" class="tg-main tg-haslayout">
+  <div class="tg-pagecontent" style="padding-bottom: 20px;">
+    <div class="container">
+      <div class="row">
+        <!--************************************
+            Inner Banner Start
+        *************************************-->
+        <div class="col-sm-12">
+          <div class="tg-innerbannercontent">
+            <div class="tg-pagetitle">
+              <h1>
+                <i class="fa fa-group"></i> Edition du groupe "{{ getAddEmpliationForm.name.value }}"</h1>
+            </div>
+            <ol class="tg-breadcrumb">
+              <li>
+                  <i class="fa fa-home"></i>
+              </li>
+              <li class="tg-active">groupe</li>
+            </ol>
+          </div>
+        </div>
+        <!--************************************
+            Inner Banner End
+        *************************************-->
+
+        <form [formGroup]="addEmpliationForm" (submit)="editGroup()" method="POST">
+        <div class="col-lg-7 col-sm-7 col-xs-12">
+          <div class="col-lg-12 col-sm-12 col-xs-12" style="padding: 0px;">
+            <aside id="tg-siderbar" class="tg-siderbar">
+              <div class="tg-widget tg-widgetprojectdescription">
+                <div class="tg-widgettitle">
+                  <div class="col-lg-8 col-sm-8 col-xs-12">
+                    <h3>Informations</h3>
+                  </div>
+                </div>
+                <div class="tg-widgetcontent">
+                    <div class="form-group">
+                      <label for="name">Nom du groupe<span class="invalid-feedback">*</span></label>
+                      <input type="text" name="name" (change)="getAddEmpliationForm.name.setValue($event.target.value)" required formControlName="name" class="form-control" id="name" placeholder="Nom">
+                      <div *ngIf="isSubmitted && getAddEmpliationForm.name.errors" class="invalid-feedback">
+                        <div *ngIf="getAddEmpliationForm.name.errors.required">Champs requis</div>
+                        <div *ngIf="getAddEmpliationForm.name.errors.minlength">Mininum 3 caractères</div>
+                        <div *ngIf="getAddEmpliationForm.name.errors.maxlength">Maximum 20 caractères</div>
+                      </div>
+                    </div>
+                    <div class="form-group">
+                      <label for="description">Description du groupe<span class="invalid-feedback">*</span></label>
+                      <textarea class="form-control" (change)="getAddEmpliationForm.description.setValue($event.target.value)" required name="description" formControlName="description" id="description" rows="3"></textarea>
+                      <div *ngIf="isSubmitted && getAddEmpliationForm.description.errors" class="invalid-feedback">
+                        <div *ngIf="getAddEmpliationForm.description.errors.required">Champs requis</div>
+                        <div *ngIf="getAddEmpliationForm.description.errors.minlength">Mininum 10 caractères</div>
+                        <div *ngIf="getAddEmpliationForm.description.errors.maxlength">Maximum 255 caractères</div>
+                      </div>
+                    </div>
+                    <div class="form-group">
+                      <button type="submit" class="btn btn-primary btn-lg pull-right" [disabled]="loading"> <img *ngIf="loading" src="assets/images/loader/MnyxU.gif" width="30px;"> Valider
+                        <i class="fa fa-edit"></i>
+                      </button>
+                    </div>
+                </div>
+              </div>
+            </aside>
+          </div>
+        </div>
+        <div class="col-lg-5 col-sm-5 col-xs-12">
+          <div class="col-lg-12 col-sm-12 col-xs-12" style="padding: 0px;">
+            <aside id="tg-siderbar" class="tg-siderbar">
+              <div class="tg-widget tg-widgetprojectdescription">
+                <div class="tg-widgettitle">
+                  <div class="col-lg-8 col-sm-8 col-xs-12">
+                    <h3>Membres</h3>
+                  </div>
+                </div>
+                <div class="tg-widgetcontent memberslist">
+                  <div class="col-lg-12 col-sm-12 col-xs-12">
+                    <div class="form-group">
+                      <ng-multiselect-dropdown [placeholder]="'Ajouter des membres'" formControlName="users" [data]="dropdownListUser" [(ngModel)]="selectedItemsUser"
+                        [settings]="dropdownSettingsUser" (onDeSelect)="onItemDeSelect($event)" (onSelectAll)="onSelectAll($event)">
+                      </ng-multiselect-dropdown>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </aside>
+          </div>
+        </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</main>

@@ -1,0 +1,144 @@
+<main id="tg-main" class="tg-main tg-haslayout">
+  <div class="tg-pagecontent" style="padding-bottom: 20px;">
+    <div class="container">
+      <div class="row">
+        <!--************************************
+            Inner Banner Start
+        *************************************-->
+        <div class="col-sm-12">
+          <div class="tg-innerbannercontent">
+            <div class="tg-pagetitle">
+              <h1>
+                <i class="fa fa-download"></i> Exportation des archives</h1>
+            </div>
+            <ol class="tg-breadcrumb">
+              <li>
+                  <i class="fa fa-home"></i>
+              </li>
+              <li class="tg-active">exportation</li>
+            </ol>
+          </div>
+        </div>
+        <!--************************************
+            Inner Banner End
+        *************************************-->
+        <div class="col-lg-12 col-sm-12 col-xs-12 pull-right">
+          <div id="tg-content" class="tg-content">
+            <div class="tg-sectionhead">
+
+              <div class="col-lg-12 col-sm-12 col-xs-12" style="padding: 0px;">
+                <aside id="tg-siderbar" class="tg-siderbar">
+                  <div class="tg-widget tg-widgetprojectdescription">
+                    <div class="tg-widgettitle">
+                      <div class="col-lg-8 col-sm-8 col-xs-12">
+                        <h3>{{ data.length }} entités trouvées</h3>
+                      </div>
+                    </div>
+                  </div>
+                </aside>
+              </div>
+                <div class="table-responsive table-responsive-sm table-responsive-md table-responsive-lg table-responsive-xl">                 
+                <table class="table table-striped table-responsive-sm table-responsive-md table-responsive-lg table-responsive-xl" [mfData]="data" #mf="mfDataTable" [mfRowsOnPage]="data.length">
+                <thead>
+                  <tr class="info">
+                    <th>
+                      <input type="checkbox" [checked]="allChecked" (click)="checkAll()" />
+                    </th>
+                    <th>
+                      <mfDefaultSorter by="name">Nom</mfDefaultSorter>
+                    </th>
+                    <th>
+                      <mfDefaultSorter by="description">Description</mfDefaultSorter>
+                    </th>
+                    <th>
+                      <mfDefaultSorter by="date">Date création</mfDefaultSorter>
+                    </th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td colSpan="4">
+                      <ng-multiselect-dropdown [placeholder]="'Choisir le mode d\'exportation'" [data]="dropdownList" [(ngModel)]="selectedItems"
+                        [settings]="dropdownSettings" (onSelect)="onItemSelect($event)" (onDeSelect)="onItemDeSelect($event)">
+                      </ng-multiselect-dropdown>
+                    </td>
+                  </tr>
+                  <tr *ngFor="let g of mf.data; let i = index">
+                    <td>
+                      <input type="checkbox" name="{{g.id}}" (click)="checkItemCliked()" class="selection-checkbox" />
+                    </td>
+                    <td>{{ g.name }}</td>
+                    <td>{{ g.description }}</td>
+                    <td>{{ g.createdAt }}</td>
+                  </tr>
+                </tbody>
+              </table> 							
+            </div>
+              </div>
+              <div class="row">
+                <div class="col-md-12 text-center">
+                  <button id="export-but" class="tg-btn" [disabled]='checkNum == 0 || data.length <= 0' (click)='export()'>
+                    <span>
+                      <i class="fa fa-file-zip-o"></i>&nbsp;Exporter</span>
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+
+
+      </div>
+    </div>
+  </div>
+</main>
+
+<!-- Progrssion Modal-->
+<div class="backdrop" [ngStyle]="{'display': (display || showSpinner) ? 'block':'none' }"></div>
+
+<div class="modal" tabindex="-1" role="dialog" [ngStyle]="{'display':showSpinner ? 'block':'none' }">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title">Exportation</h4>
+      </div>
+      <div class="modal-body">
+
+        <i *ngIf="kbLoaded" class="text-center">{{kbLoaded}} chargés {{kbNeeded ? 'sur '+kbNeeded:''}}</i>
+        <progress-bar [progress]="percentDone" [color]="'#488aff'"></progress-bar>
+
+      </div>
+      <div class="modal-footer">
+      </div>
+    </div>
+    <!-- /.modal-content -->
+  </div>
+  <!-- /.modal-dialog -->
+</div>
+<!-- /.modal !-->
+
+<div class="modal" tabindex="-1" role="dialog" [ngStyle]="{'display':display ? 'block':'none' }">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title">Confirmation</h4>
+      </div>
+      <div class="modal-body">
+
+        <p class="text-center">
+          Cette opération nécessite d'avoir au moins
+          <b>{{kbNeeded}}</b> de données
+          <br>
+          <strong> continuer ? </strong>
+        </p>
+
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-success" (click)="exportFiles()">Oui</button>
+        <button type="button" class="btn btn-default" (click)="onCloseHandled()">Non</button>
+      </div>
+    </div>
+    <!-- /.modal-content -->
+  </div>
+  <!-- /.modal-dialog -->
+</div>
+<!-- /.modal !-->

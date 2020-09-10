@@ -1,0 +1,61 @@
+<main id="tg-main" class="tg-main tg-haslayout">
+  <div class="tg-pagecontent" style="padding-bottom: 20px;">
+    <div class="container">
+      <div class="row">
+        <!--************************************
+            Inner Banner Start
+        *************************************-->
+        <div class="col-sm-12">
+          <div class="tg-innerbannercontent">
+            <div class="tg-pagetitle">
+              <h1>
+                <i class="fa fa-file-o"></i> Type de fichiers valides</h1>
+            </div>
+            <ol class="tg-breadcrumb">
+              <li>
+                <i class="fa fa-home"></i>
+              </li>
+              <li class="tg-active">fichier</li>
+            </ol>
+          </div>
+        </div>
+        <!--************************************
+            Inner Banner End
+        *************************************-->
+        <div class="col-lg-5 col-sm-5 col-xs-12">
+          <div class="col-lg-12 col-sm-12 col-xs-12" style="padding: 0px;">
+            <aside id="tg-siderbar" class="tg-siderbar">
+              <div class="tg-widget tg-widgetprojectdescription">
+                <div class="tg-widgettitle">
+                  <div class="col-lg-8 col-sm-8 col-xs-12">
+                    <h3>Types de fichiers</h3>
+                  </div>
+                </div>
+                <div class="tg-widgetcontent memberslist">
+                  <div class="col-lg-12 col-sm-12 col-xs-12">
+                    <div *ngIf="typeOfFiles.length == 0" class="text-center">
+                      <img src="assets/images/loader/MnyxU.gif" width="30px;">
+                    </div>
+                    <div *ngFor="let type of typeOfFiles" class="well well-sm">
+                      {{ type }}
+                      <ui-switch [(ngModel)]="checkboxs[type]" (click)="setChecked(type)" [checked]="false" size="small" color="#337ab7"
+                        defaultBgColor="red" class="pull-right"></ui-switch>
+                    </div>
+                    <br>
+                    <div class="form-group">
+                      <button (click)="onSubmit()" class="btn btn-primary btn-lg pull-right" [disabled]="loading">
+                        <img *ngIf="loading" src="assets/images/loader/MnyxU.gif" width="30px;"> &nbsp;&nbsp;Editer
+                        <i class="fa fa-edit"></i>
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </aside>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</main>
+<!-- end of modal -->

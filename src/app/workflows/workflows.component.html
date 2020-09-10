@@ -1,0 +1,144 @@
+<main id="tg-main" class="tg-main tg-haslayout">
+  <div class="tg-pagecontent" style="padding-bottom: 20px;">
+    <div class="container">
+      <div class="row">
+        <!--************************************
+            Inner Banner Start
+        *************************************-->
+        <div class="col-sm-12">
+          <div class="tg-innerbannercontent">
+            <div class="tg-pagetitle">
+              <h1>
+                <i class="fa fa-clock-o"></i> Liste des plannifications</h1>
+            </div>
+            <ol class="tg-breadcrumb">
+              <li>
+                <i class="fa fa-home"></i>
+              </li>
+              <li class="tg-active">plannification</li>
+            </ol>
+          </div>
+        </div>
+        <!--************************************
+            Inner Banner End
+        *************************************-->
+        <div class="tg-postbuttons">
+          <a class="tg-btn tg-nextpost" routerLink="/admin/workflow/add" style="cursor: pointer;">
+            <span>
+              <i class="fa fa-plus-circle"></i> &nbsp;&nbsp; Ajouter une plannification
+            </span>
+          </a>
+        </div>
+
+        <div class="col-lg-12 col-sm-12 col-xs-12" style="padding: 0px;">
+          <aside id="tg-siderbar" class="tg-siderbar">
+            <div class="tg-widget tg-widgetprojectdescription">
+              <div class="tg-widgettitle">
+                <div class="col-lg-8 col-sm-8 col-xs-12">
+                  <h3>{{ data.length }} plannifications trouvées</h3>
+                </div>
+                <div class="col-lg-4 col-sm-4 col-xs-12">
+                  <input type="text" class="col-lg-12 col-sm-12 col-xs-12" placeholder="filter" (keyup)='search($event.target.value)'> </div>
+              </div>
+            </div>
+          </aside>
+				</div>
+				<div class="table table-responsive table-responsive-sm table-responsive-md table-responsive-lg table-responsive-xl">
+        <table class="table table-striped" [mfData]="data" #mf="mfDataTable" [mfRowsOnPage]="5">
+          <thead>
+            <tr class="info">
+              <th style="width: 5%">
+                <mfDefaultSorter>N*</mfDefaultSorter>
+              </th>
+              <th style="width: 20%">
+                <mfDefaultSorter by="name">Nom</mfDefaultSorter>
+              </th>
+              <th style="width: 10%">
+                <mfDefaultSorter by="description">Date</mfDefaultSorter>
+              </th>
+              <th style="width: 5%">
+                <mfDefaultSorter by="Action">Heure</mfDefaultSorter>
+              </th>
+              <th style="width: 10%">
+                <mfDefaultSorter by="Action">Tache</mfDefaultSorter>
+              </th>
+              <th style="width: 20%">
+                <mfDefaultSorter by="Action">Parametrès</mfDefaultSorter>
+              </th>
+              <th style="width: 5%">
+                <mfDefaultSorter by="Action">Statut</mfDefaultSorter>
+              </th>
+              <th style="width: 25%">
+                <mfDefaultSorter by="Action">Actions</mfDefaultSorter>
+              </th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let plannification of mf.data; let i = index">
+              <td> {{ i+1 }}</td>
+              <td>{{ plannification.name }}</td>
+              <td>{{ plannification.date }}</td>
+              <td>{{ plannification.time }}</td>
+              <td>{{ plannification.task }}</td>
+              <td>{{ plannification.parameters }}</td>
+              <td><i class="fa {{ plannification.isActive ? 'fa-check' : 'fa-times' }}"></i></td>
+              <td>
+                <div class="btn-group" role="group">
+                  <button (click)="editPlannification(plannification.id)" type="button" class="btn btn-info">Edition &nbsp;
+                    <i class="fa fa-edit"></i>
+                  </button>
+                  <button (click)="block(plannification.id, plannification.isActive ? false : true)" type="button" class="btn btn-warning">
+                    <i class="fa {{ plannification.isActive ? 'fa-unlock' : 'fa-lock' }}"></i>
+                  </button>
+                  <button (click)="setIdToDetele(plannification.id)" type="button" class="btn btn-danger" data-target="#deletingModal" data-toggle="modal">Supp. &nbsp;
+                    <i class="fa fa-trash"></i>
+                  </button>
+                </div>
+              </td>
+            </tr>
+          </tbody>
+          <tfoot>
+            <tr>
+              <td colspan="8">
+                <img *ngIf="mainLoading" src="assets/images/loader/MnyxU.gif" width="30px;">
+                <mfBootstrapPaginator [rowsOnPageSet]="[5,10,25]"></mfBootstrapPaginator>
+              </td>
+            </tr>
+          </tfoot>
+				</table>
+				</div>
+      </div>
+    </div>
+  </div>
+</main>
+
+
+
+<!-- modal for deleting workflow-->
+<div class="backdrop" [ngStyle]="{'display':showDeleteModal ? 'block':'none'}"></div>
+
+<div class="modal" tabindex="-1" role="dialog" [ngStyle]="{'display':showDeleteModal ? 'block':'none' }">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" (click)="showDeleteModal = false" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+        <h4 class="modal-title" id="myModalLabel">Suppression de plannification &nbsp;&nbsp;&nbsp;
+          <img *ngIf="loading" src="assets/images/loader/MnyxU.gif" width="30px;">
+        </h4>
+      </div>
+      <div class="modal-body">
+        <p>Etes-vous sure de vouloir supprimer cette plannification ? Cette action est irreversible !</p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-info" (click)="showDeleteModal = false">Annuler
+          <i class="fa fa-remove"></i>
+        </button>
+        <button type="button" class="btn btn-danger" (click)="deleteWorkflow()" data-dismiss="modal">Supprimer
+          <i class="fa fa-trash"></i>
+        </button>
+      </div>
+    </div>
+  </div>
+</div>

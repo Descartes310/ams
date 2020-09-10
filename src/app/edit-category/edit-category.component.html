@@ -1,0 +1,134 @@
+<main id="tg-main" class="tg-main tg-haslayout">
+  <div class="tg-pagecontent" style="padding-bottom: 20px;">
+    <div class="container">
+      <div class="row">
+        <!--************************************
+            Inner Banner Start
+        *************************************-->
+        <div class="col-sm-12">
+          <div class="tg-innerbannercontent">
+            <div class="tg-pagetitle">
+              <h1>
+                <i class="fa fa-file"></i> Editer la catégorie "{{ getAddCategoryForm.name.value }}"</h1>
+            </div>
+            <ol class="tg-breadcrumb">
+              <li>
+                  <i class="fa fa-home"></i>
+              </li>
+              <li class="tg-active">catégorie</li>
+            </ol>
+          </div>
+        </div>
+        <!--************************************
+            Inner Banner End
+        *************************************-->
+
+          <form (submit)="onSubmit()" method="POST" [formGroup]="addCategoryForm">
+          <div class="col-lg-7 col-sm-7 col-xs-12">
+            <div class="col-lg-12 col-sm-12 col-xs-12" style="padding: 0px;">
+              <aside id="tg-siderbar" class="tg-siderbar">
+                <div class="tg-widget tg-widgetprojectdescription">
+                  <div class="tg-widgettitle">
+                    <div class="col-lg-8 col-sm-8 col-xs-12">
+                      <h3>Informations
+                      </h3>
+                    </div>
+                  </div>
+                  <div class="tg-widgetcontent">
+                    <div class="form-group">
+                      <label for="name">Nom
+                        <span class="invalid-feedback">*</span>
+                      </label>
+                      <input type="text" name="name" required class="form-control" formControlName="name" id="name">
+                      <div *ngIf="isSubmitted && getAddCategoryForm.name.errors" class="invalid-feedback">
+                        <div *ngIf="getAddCategoryForm.name.errors.required">Champs requis</div>
+                        <div *ngIf="getAddCategoryForm.name.errors.minlength">Mininum 3 caractères</div>
+                        <div *ngIf="getAddCategoryForm.name.errors.maxlength">Maximum 20 caractères</div>
+                      </div>
+                    </div>
+                    <div class="form-group">
+                      <label for="description">Description
+                        <span class="invalid-feedback">*</span>
+                      </label>
+                      <textarea class="form-control" required name="description" formControlName="description" id="description" rows="3"></textarea>
+                      <div *ngIf="isSubmitted && getAddCategoryForm.description.errors" class="invalid-feedback">
+                        <div *ngIf="getAddCategoryForm.description.errors.required">Champs requis</div>
+                        <div *ngIf="getAddCategoryForm.description.errors.minlength">Mininum 10 caractères</div>
+                        <div *ngIf="getAddCategoryForm.description.errors.maxlength">Maximum 255 caractères</div>
+                      </div>
+                    </div>
+                    <div class="form-group">
+                      <button type="submit" class="btn btn-primary btn-lg pull-right" [disabled]="loading">
+                        <img *ngIf="loading" src="assets/images/loader/MnyxU.gif" width="30px;"> &nbsp;&nbsp;Valider
+                        <i class="fa fa-edit"></i>
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              </aside>
+            </div>
+          </div>
+          <div class="col-lg-5 col-sm-5 col-xs-12">
+            <div class="col-lg-12 col-sm-12 col-xs-12" style="padding: 0px;">
+              <aside id="tg-siderbar" class="tg-siderbar">
+                <div class="tg-widget tg-widgetprojectdescription">
+                  <div class="tg-widgettitle">
+                    <div class="col-lg-8 col-sm-8 col-xs-12">
+                      <h3>Métas données</h3>
+                    </div>
+                  </div>
+                  <div class="tg-widgetcontent memberslist">
+                    <div class="col-lg-12 col-sm-12 col-xs-12">
+                      <div class="form-group">
+                        <label for="name">Métas données
+                          <span class="invalid-feedback">*</span>
+                        </label>
+                        <br>
+                        <span>Certaines métas données sont obligatoires et ne figurent pas dans la liste qui suit. Il s'agit de:
+                          Nom, Catégorie et Date de Création.</span>
+                        <br>
+                        <br>
+                        <ng-multiselect-dropdown [placeholder]="'Choisir les méta données'" formControlName="metadatas" [data]="dropdownListMetadatas"
+                          [(ngModel)]="selectedItemsMetadatas" [settings]="dropdownSettingsMetadatas" (onDeSelect)="onItemDeSelectMetadatas($event)"
+                          (onSelectAll)="onSelectAllMetadatas($event)" (onDeSelectAll)="onSelectAllMetadatas($event)">
+                        </ng-multiselect-dropdown>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </aside>
+            </div>
+          </div>
+          <div class="col-lg-5 col-sm-5 col-xs-12" style="margin-top: 10px;">
+            <div class="col-lg-12 col-sm-12 col-xs-12" style="padding: 0px;">
+              <aside id="tg-siderbar" class="tg-siderbar">
+                <div class="tg-widget tg-widgetprojectdescription">
+                  <div class="tg-widgettitle">
+                    <div class="col-lg-8 col-sm-8 col-xs-12">
+                      <h3>Groupes d'ampliation</h3>
+                    </div>
+                  </div>
+                  <div class="tg-widgetcontent memberslist">
+                    <div class="col-lg-12 col-sm-12 col-xs-12">
+                      <div class="form-group">
+                        <label for="name">Groupes d'ampliation
+                          <span class="invalid-feedback">*</span>
+                        </label>
+                        <br>
+                        <br>
+                        <ng-multiselect-dropdown [placeholder]="'Choisir les groupes'" formControlName="groups" [data]="dropdownListGroupes"
+                          [(ngModel)]="selectedItemsGroupes" [settings]="dropdownSettingsGroupes" (onDeSelect)="onItemDeSelectGroupes($event)"
+                          (onSelectAll)="onSelectAllGroupes($event)" (onDeSelectAll)="onSelectAllGroupes($event)">
+                        </ng-multiselect-dropdown>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </aside>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</main>

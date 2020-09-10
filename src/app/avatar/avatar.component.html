@@ -1,0 +1,3 @@
+<img *ngIf="!isImageLoading && !loadFailled" [src]="imageToShow" alt="{{ alt }}" class="{{customClass}}">
+<img *ngIf="isImageLoading" src="assets/images/loader/MnyxU.gif" alt="Loading image">
+<img *ngIf="!isImageLoading && loadFailled" src="assets/images/avatar/default.png" alt="Default avatar" class="{{customClass}}">

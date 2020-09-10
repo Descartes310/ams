@@ -1,0 +1,221 @@
+<main id="tg-main" class="tg-main tg-haslayout">
+  <div class="tg-pagecontent" style="padding-bottom: 20px;">
+    <div class="container" style="margin: 10px; margin-right: 00px;">
+      <div class="row">
+
+        <div class="col-lg-3 col-sm-4 col-xs-12">
+          <app-left-side></app-left-side>
+        </div>
+
+
+        <div class="col-lg-9 col-sm-8 col-xs-12 pull-right">
+          <div id="tg-content" class="tg-content">
+            <div class="tg-sectionhead">
+              <div class="tg-sectiontitle">
+                <h1>Rechercher dans les archives</h1>
+              </div>
+
+
+
+              <div class="row">
+                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                  <div class="tg-sectionhead">
+                    <div class="tg-description">
+                      <h4>Entrer vos critères de recherche puis demarrer la recherche</h4>
+                    </div>
+                  </div>
+                </div>
+
+                <form class="tg-themeform" id="search-bar" #f="ngForm">
+                  <p class="text-center" style="text-transform:uppercase">Critères de recherche</p>
+                  <br>
+                  <fieldset>
+
+										<div class="col-sm-3">
+                      <div class="form-group">
+												<small>Nom</small>
+												<input #searchBox (keyup)='searchName($event.target.value)' type="text" class="form-control" [(value)]="recherche" ngModel name="name" placeholder="Nom">
+                        </div>
+										</div>
+										
+                   <div class="col-sm-3" *ngFor="let m of metadatas">
+                      <div class="form-group">
+												<small>{{ m.label }}</small>
+                        <input #searchBox (keyup)='searchMeta($event.target.value)' type="{{ m.type }}" class="form-control" ngModel name="{{ m.name }}" placeholder="{{ m.label }}">
+                      </div>
+                    </div> 
+
+                    <br *ngIf="(metadatas.length+1)%4 === 0">
+                    <div class="col-xs-10 col-xs-offset-1 col-sm-4 col-sm-offset-4 col-md-4 col-md-offset-4"
+                    	*ngIf="(metadatas.length+1)%4 === 0">
+                      <div class="form-group">
+												<small style="opacity:0;">Lancer la recherchce</small>
+                        <button class="tg-btn" (click)="searchMeta()" [disabled]="isLoading">
+                          <span><i class="fa fa-search"></i>&nbsp;Recherche</span>
+                        </button>
+                      </div>
+                    </div>
+
+                    <div
+                    	class="col-xs-10 col-xs-offset-1 col-sm-3 col-md-3 col-md-offset-{{ 3-((metadatas.length+1)%4) }}"
+                    	*ngIf="(metadatas.length+1)%4 > 0">
+                      <div class="form-group">
+												<small style="opacity:0;">Lancer la recherchce</small>
+                        <button type="button" class="tg-btn" (click)="searchMeta()" [disabled]="isLoading">
+                          <span><i class="fa fa-search"></i>&nbsp;Recherche</span>
+                        </button>
+                      </div>
+                    </div>
+
+                  </fieldset>
+                </form>
+              </div>
+              <div class="row" id="filter-bar">
+                <div class="col-md-6">
+                  <ng-multiselect-dropdown
+                    placeholder="FILTRE PAR GROUPE SUR LES RESULTATS"
+                    [data]="groups"
+                    [(ngModel)]="selectedGoups"
+                    [settings]="dropdownSettings"
+                    (onSelect)="onItemSelect($event)"
+                    (onDeSelect)="onItemDeSelect($event)"
+                    (onSelectAll)="onSelectAll($event)"
+                  >
+                  </ng-multiselect-dropdown>
+                </div>
+                <div class="col-md-6">
+									<ng-multiselect-dropdown
+                    placeholder="FILTRE PAR CATEGORIE SUR LES RESULTATS"
+                    [data]="categories"
+                    [(ngModel)]="selectedCategories"
+                    [settings]="dropdownSettings2"
+                    (onSelect)="onItemSelect($event)"
+                    (onDeSelect)="onItemDeSelect($event)"
+                    (onSelectAll)="onSelectAll($event)"
+                  >
+                  </ng-multiselect-dropdown>
+                </div>
+              </div>
+
+							<div class="table-responsive table-responsive-sm table-responsive-md table-responsive-lg table-responsive-xl">
+								<table class="table table-striped table-responsive-sm table-responsive-md table-responsive-lg table-responsive-xl"
+											[mfData]="archives | filterBy: doFilter"
+											#mf="mfDataTable"
+											[mfRowsOnPage]="numberRowsOnPage"
+											*ngIf="!isLoading && archives.length > 0">
+									<thead>
+										<tr>
+											<th>
+												<input type="checkbox" [checked]="allChecked" (click)="checkAll()" />
+											</th>
+											<th>Nom</th>
+											<th>Catégorie</th>
+											<th>Versé par</th>
+											<th>Taille</th>
+											<th>Versé le</th>
+											<th>Action</th>
+										</tr>
+									</thead>
+									<tbody>
+										<tr *ngFor="let a of mf.data; let i = index">
+											<td>
+												<input type="checkbox" name="{{a.id}}" (click)="checkItemCliked()" class="selection-checkbox" />
+											</td>
+											<td>{{ a.name }}</td>
+											<td><a (click)="goToCategory(a.category)">{{ a.category.name }}</a></td>
+											<td>{{ a.archivistName }}</td>
+											<td>{{ a.size }}</td>
+											<td>{{ a.createdAt }}</td>
+											<td class="td-action" >
+												<a title="Détail sur {{ a.name }}" class="btn btn-info" [routerLink]="['/archive', a.id]"><i class="fa fa-eye"></i></a>&nbsp;
+												<a title="Supprimer {{ a.name }}" class="btn btn-danger" (click)="deleteConfirm(a)"><i class="fa fa-trash-o"></i></a>&nbsp;
+												<a title="Télécharger {{ a.name }}" class="btn btn-success" (click)="download(a)"><i class="fa fa-file-pdf-o"></i></a>
+											</td>
+										</tr>
+										<tr>
+											<td colSpan="6">Avec la selection :</td>
+											<td class="td-action">
+												<a title="Supprimer la sélection" class="btn btn-danger" (click)="openDeleteCheckedModal()"><i class="fa fa-trash-o"></i></a>&nbsp;
+												<a title="Télécharger sélection" class="btn btn-success" (click)="downloadChecked()"><i class="fa fa-download"></i></a>
+											</td>
+										</tr>
+									</tbody>
+									<tfoot>
+										<tr>
+											<td colSpan="7" *ngIf="(archives | filterBy: doFilter).length > numberRowsOnPage">
+												<mfBootstrapPaginator [rowsOnPageSet]="[5,10,25,50,100]"></mfBootstrapPaginator>
+											</td>
+										</tr>
+									</tfoot>
+								</table>
+            </div>
+
+  <h4 class="text-center" *ngIf="archives.length === 0" style="padding-top: 25px;">
+    <span *ngIf="isResult && !isLoading"> AUCUNE ARCHIVE TROUVEE </span>
+    <span *ngIf="!isResult && !isLoading"> EN ATTENDE D'UNE RECHERCHE </span>
+  </h4>
+
+  <p *ngIf="isLoading" class="text-center">
+    <img src="assets/images/loader/MnyxU.gif" alt="Loading image">
+  </p>
+
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</main>
+
+<!-- Progrssion Modal-->
+<div class="backdrop" [ngStyle]="{'display':(displayDM || displayDS) ? 'block':'none'}"></div>
+
+<div class="modal" tabindex="-1" role="dialog" [ngStyle]="{'display':displayDM ? 'block':'none' }">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title">Suppréssion</h4>
+      </div>
+      <div class="modal-body">
+        <p>Confirmer vous la suppréssion de <b>{{archiveToDel.name}}</b> ?</p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" (click)="delete(archiveToDel.id)" >Confirmer</button>
+        <button type="button" class="btn btn-default" (click)="onCloseHandled()">Annuler</button>
+      </div>
+    </div><!-- /.modal-content -->
+  </div><!-- /.modal-dialog -->
+</div><!-- /.modal !-->
+
+<div class="modal" tabindex="-1" role="dialog" [ngStyle]="{'display':displayDS ? 'block':'none' }" id="delCheckedModal">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title">Suppréssion</h4>
+      </div>
+      <div class="modal-body">
+        <p>Confirmer vous la suppréssion de {{delNum === 1 ? '':'tout'}} {{delNum === 1 ? "l'":"les "+delNum}} archive{{delNum === 1 ? '':'s'}} sélectionnée{{delNum === 1 ? '':'s'}} ?</p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" (click)="deleteChecked()" >Confirmer</button>
+        <button type="button" class="btn btn-default" (click)="onCloseHandled()">Annuler</button>
+      </div>
+    </div><!-- /.modal-content -->
+  </div><!-- /.modal-dialog -->
+</div><!-- /.modal !-->
+<script>
+/*	var app = angular.module("myapp", []);
+	app.controller("usercontroller", function($scope){
+		$scope.archivesList = arch;
+		$scope.complete = function(string){
+			var output = [];
+			angular.forEach($cope.archivesList, function(archives){
+				if(archives.toLowerCase().indexOf(string.toLowerCase()) >=0 ){
+					output.push(archives);
+				}
+			}); 
+			$scope.filterArchives = output; 
+		}
+	});*/
+</script>

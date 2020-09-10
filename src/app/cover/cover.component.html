@@ -1,0 +1,4 @@
+<img [src]="imageToShow" alt="{{ alt }}" class="{{customClass}}" *ngIf="!isImageLoading; else noImageFound" >
+<ng-template #noImageFound>
+  <img src="assets/images/loader/MnyxU.gif" alt="Loading image">
+</ng-template>

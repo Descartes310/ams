@@ -1,0 +1,25 @@
+<main id="tg-main" class="tg-main tg-haslayout">
+ <div class="tg-pagecontent">
+    <div class="container">
+      <div class="row">
+        <div class="tg-404">
+          <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1 col-sm-12 col-xs-12" style="margin-top: 0px;">
+            <div class="tg-404content">
+              <div class="tg-borderstyle">
+                <h2>
+                  <img class="tg-svginject" src="assets/images/404.svg" alt="image description">
+                </h2>
+                <h3>Oops, La page demandée est introuvable !</h3>
+                <p>Nous sommes vraiment désolé mais la page que vous avez demandé est introuvable :(</p>
+              </div>
+              <span>Retourner à la page d'accueil
+                <a *ngIf="isAdmin()" routerLink="/admin/home">Home</a>
+                <a *ngIf="!isAdmin()" routerLink="/home">Home</a>
+              </span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+	</div>
+	</main>

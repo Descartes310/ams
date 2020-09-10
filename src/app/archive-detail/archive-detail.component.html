@@ -1,0 +1,82 @@
+
+
+<!--************************************
+				Main Start
+    *************************************-->
+<p *ngIf="isLoading" class="text-center" id="image-loader">
+  <img src="assets/images/loader/MnyxU.gif" alt="Loading image">
+</p>
+<main *ngIf="!isLoading" id="tg-main" class="tg-main tg-haslayout">
+  <div class="tg-pagecontent">
+    <div class="container">
+      <div class="row">
+        <div class="tg-member tg-detailpage">
+          <div class="col-sm-4 col-xs-12 pull-left">
+            <figure>
+              <app-cover cover="{{ archive.cover }}" category="{{ archive.category.slug }}" alt="{{ archive.name }}"></app-cover>
+              <figcaption>
+                <ul class="tg-socialprofilelinks">
+                  <li *ngIf="!archive.deletedAt && canDownload"><a class="pointer" title="Télécharger" (click)="download()"><i class="fa fa-download"></i></a></li>
+                  &nbsp;
+                  <li *ngIf="!archive.deletedAt && canDelete"><a class="pointer" title="Supprimer" (click)="delete()"><i class="fa fa-trash-o"></i></a></li>
+                  &nbsp;
+                  <li *ngIf="archive.deletedAt && canRestore"><a class="pointer" title="Restaurer" (click)="restore()"><i class="fa fa-recycle"></i></a></li>
+                </ul>
+              </figcaption>
+            </figure>
+          </div>
+          <div class="col-sm-8 col-xs-12 pull-right">
+            <div class="tg-sectionhead">
+              <div class="tg-sectiontitle">
+                <h2 *ngIf="archive.deletedAt" id="del-title">Archive supprimée</h2>
+                <h2 *ngIf="!archive.deletedAt">{{ archive.categorie }}</h2>
+                <h3>{{ archive.name }}</h3>
+              </div>
+              <div class="tg-description">
+                <p>Dans ce tableau vous avez tout les détails sur l'archive, à guauche les libelés et à droite les valeurs correspondantes.</p>
+              </div>
+            </div>
+            <div class="tg-memberinfo">
+              <span>Nom :</span>
+              <span>{{ archive.name }}</span>
+              <span>Catégorie :</span>
+              <span><a style="cursor: pointer" (click)="goToCategory()">{{ archive.categorie }}</a></span>
+              <span>Versée par :</span>
+              <span>{{ archive.archivistGrade }} {{ archive.archivistName }}</span>
+              <span>Téléphone du versant :</span>
+              <span>{{ archive.archivistTelephone }}</span>
+              <span>Versée le :</span>
+              <span>{{ archive.createdAt }}</span>
+              <span>Taille du fichier :</span>
+              <span>{{ archive.size }}</span>
+              <span>Format du fichier</span>
+              <span>PDF</span>
+              <ng-container *ngFor="let m of metadatas">
+                <span *ngIf="archive.details[m.name]">{{ m.label }} :</span>
+                <span *ngIf="archive.details[m.name]">{{ archive.details[m.name] }}</span>
+              </ng-container>
+              <span *ngIf="archive.deletedAt">Date Suppression :</span>
+              <span *ngIf="archive.deletedAt"> {{ archive.deletedAt }} </span>
+              <span>Groupes :</span>
+              <span>
+                <a *ngFor="let g of archive.groups; let i = index" (click)="goToGroup(g)" class="pointer">
+                  {{ i>0? ' - ':'' }} {{ g.name }}
+                </a>
+              </span>
+							<span>Intéréssés :</span>
+							<span *ngIf="archive.interests.length == 0"> - </span>
+              <span *ngIf="archive.interests.length > 0">
+                <a *ngFor="let u of archive.interests; let i = index" href="mailto:{{ u.email }}" style="cursor:text" >
+                  {{ i>0? ' - ':'' }} {{ u.firstName }} {{ u.lastName }}
+                </a>
+              </span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</main>
+<!--************************************
+				Main End
+		*************************************-->

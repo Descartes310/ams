@@ -1,0 +1,153 @@
+<main id="tg-main" class="tg-main tg-haslayout">
+  <div class="tg-pagecontent" style="padding-bottom: 20px;">
+    <div class="container" style="margin: 10px; margin-right: 00px;">
+      <div class="row">
+
+        <div class="col-lg-3 col-sm-4 col-xs-12">
+          <app-left-side></app-left-side>
+        </div>
+
+
+        <div class="col-lg-9 col-sm-8 col-xs-12 pull-right">
+          <div id="tg-content" class="tg-content">
+            <div class="tg-sectionhead">
+              <div class="tg-sectiontitle">
+                <h1>Exporter vos archives</h1>
+              </div>
+
+
+
+              <div class="row">
+                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                  <div class="tg-sectionhead">
+                    <div class="tg-description">
+                      <h4>Cochez les groupes à exporter</h4>
+                    </div>
+                  </div>
+                </div>
+
+                <form class="tg-themeform" id="search-bar">
+                  <p class="text-center" style="text-transform:uppercase">Filter vos résultats</p>
+                  <br>
+                  <fieldset>
+                    <div class="col-sm-6">
+                      <div class="form-group">
+                        <input type="text" class="form-control" name="name" [(ngModel)]="filter.name"
+                          placeholder="Nom">
+                      </div>
+                    </div>
+                    <div class="col-sm-6">
+                      <div class="form-group">
+                        <input type="date" class="form-control" name="date" #box (keyup)="onDateFilterChange(box.value)"
+                          (change)="onDateFilterChange(box.value)" pattern="yyyy-MM-dd" placeholder="Date création"
+                          title="Date création">
+                      </div>
+                    </div>
+                  </fieldset>
+                </form>
+              </div>
+
+							<div class="table-responsive table-responsive-sm table-responsive-md table-responsive-lg table-responsive-xl">
+							<table class="table table-striped  table-responsive table-responsive-sm table-responsive-md table-responsive-lg table-responsive-xl" 
+								[mfData]="groups | filterBy: filter" 
+								#mf="mfDataTable"
+								[mfRowsOnPage]="groups.length" 
+								*ngIf="!isLoading && groups.length > 0">
+                <thead>
+                  <tr>
+                    <th>
+                      <input type="checkbox" [checked]="allChecked" (click)="checkAll()" />
+                    </th>
+                    <th>
+                      <mfDefaultSorter by="name">Nom</mfDefaultSorter>
+                    </th>
+                    <th>
+                      <mfDefaultSorter by="name">Description</mfDefaultSorter>
+                    </th>
+                    <th>
+                      <mfDefaultSorter by="name">Date création</mfDefaultSorter>
+                    </th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr *ngFor="let g of mf.data; let i = index">
+                    <td>
+                      <input type="checkbox" name="{{g.id}}" (click)="checkItemCliked()" class="selection-checkbox" />
+                    </td>
+                    <td>{{ g.name }}</td>
+                    <td>{{ g.description }}</td>
+                    <td>{{ g.date }}</td>
+                  </tr>
+                </tbody>
+							</table>
+							</div>
+
+              <div class="row" *ngIf="!isLoading && groups.length > 0">
+                <div class="col-md-12 text-center">
+                  <button id="export-but" class="tg-btn" [disabled]='checkNum == 0' (click)='export()'>
+                    <span><i class="fa fa-file-zip-o"></i>&nbsp;Exporter</span>
+                  </button>
+                </div>
+              </div>
+
+              <h4 class="text-center" *ngIf="groups.length === 0" style="padding-top: 25px;">
+                <span *ngIf="(groups | filterBy: filter).length === 0"> AUCUN GROUPE TROUVE </span>
+              </h4>
+
+              <p *ngIf="isLoading" class="text-center">
+                <img src="assets/images/loader/MnyxU.gif" alt="Loading image">
+              </p>
+
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</main>
+
+<!-- Progrssion Modal-->
+<div class="backdrop" [ngStyle]="{'display': (display || showSpinner) ? 'block':'none' }"></div>
+
+<div class="modal" tabindex="-1" role="dialog" [ngStyle]="{'display':showSpinner ? 'block':'none' }">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title">Exportation</h4>
+      </div>
+      <div class="modal-body">
+
+        <i *ngIf="kbLoaded" class="text-center">{{kbLoaded}} chargés {{kbNeeded ? 'sur '+kbNeeded:''}}</i>
+        <progress-bar [progress]="percentDone" [color]="'#488aff'"></progress-bar>
+
+      </div>
+      <div class="modal-footer">
+      </div>
+    </div><!-- /.modal-content -->
+  </div><!-- /.modal-dialog -->
+</div><!-- /.modal !-->
+
+
+
+<div class="modal" tabindex="-1" role="dialog" [ngStyle]="{'display':display ? 'block':'none' }">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title">Confirmation</h4>
+      </div>
+      <div class="modal-body">
+
+        <p class="text-center">
+          Cette opération nécessite d'avoir au moins <b>{{kbNeeded}}</b> de données<br>
+          <strong> continuer ? </strong>
+        </p>
+
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-success" (click)="exportFiles()" >Oui</button>
+        <button type="button" class="btn btn-default" (click)="onCloseHandled()">Non</button>
+      </div>
+    </div><!-- /.modal-content -->
+  </div><!-- /.modal-dialog -->
+</div><!-- /.modal !-->
